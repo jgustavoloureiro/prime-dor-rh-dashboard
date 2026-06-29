@@ -8,7 +8,7 @@
 
 ## Sobre o Projeto
 
-Dashboard analítico completo de RH desenvolvido para a posição de **HRBP Senior — Unidade Hospitalar RJ** da **Prime D'Or (Rede D'Or São Luiz)**. Combina dados reais do ESG 2023, benchmarks ANAHP e pesquisa salarial (Robert Half + MR Survey 2024) com projeções modeladas para fins de demonstração de domínio em **People Analytics**.
+Dashboard analítico completo de RH desenvolvido para a posição de **HRBP Senior — Unidade Hospitalar RJ** da **Prime D'Or**. Combina dados reais do ESG 2023, benchmarks ANAHP e pesquisa salarial (Robert Half + MR Survey 2024) com projeções modeladas para fins de demonstração de domínio em **People Analytics**.
 
 **Propósito:** Demonstrar capacidade analítica, domínio de indicadores de RH e construção de dashboards executivos sem dependência de licença Power BI Premium.
 
