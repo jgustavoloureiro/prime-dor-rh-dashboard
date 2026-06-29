@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Jose Gustavo L. C. Silva">
+<meta name="description" content="Prime D'Or RH Analytics — Dashboard estrategico de Gente e Gestao. Dados ficticios para fins demonstrativos.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RH Analytics | Prime D'Or</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+/* ── TOKENS LIGHT ─────────────────────────────── */
+[data-theme="light"]{
+  --az:#003DA5;--aze:#002855;--azc:#71C5E8;
+  --do:#C6A27C;--doc:#F0C88A;--doe:#3D1F08;
+  --ve:#009681;--pk:#E31C79;--la:#FA4616;
+  --bg:#F0F2F7;--card:#FFFFFF;--card2:#F7F9FC;
+  --bo:#D8DEF0;--bo2:#E8EDF8;
+  --tx:#0D1E3A;--ts:#6B7FA3;--wh:#FFFFFF;
+  --sb-bg:#002855;--sb-txt:rgba(255,255,255,.7);--sb-sec:rgba(255,255,255,.28);
+  --tb-bg:#FFFFFF;--tb-bo:#D8DEF0;
+  --shadow:0 1px 5px rgba(0,40,85,.07);
+}
+/* ── TOKENS DARK ──────────────────────────────── */
+[data-theme="dark"]{
+  --az:#4D8FE8;--aze:#1A2E50;--azc:#71C5E8;
+  --do:#C6A27C;--doc:#F0C88A;--doe:#5a3510;
+  --ve:#00B89A;--pk:#F04D98;--la:#FF7A40;
+  --bg:#0F1923;--card:#1A2435;--card2:#1E2B3C;
+  --bo:#2A3A55;--bo2:#243047;
+  --tx:#E8EEF8;--ts:#7A90B0;--wh:#E8EEF8;
+  --sb-bg:#0D1724;--sb-txt:rgba(255,255,255,.65);--sb-sec:rgba(255,255,255,.22);
+  --tb-bg:#1A2435;--tb-bo:#2A3A55;
+  --shadow:0 1px 5px rgba(0,0,0,.3);
+}
+html,body{height:100%;overflow:hidden;font-family:Verdana,Arial,sans-serif;font-size:12px;background:var(--bg);color:var(--tx);transition:background .3s,color .3s}
+.shell{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ──────────────────────────────────── */
+.sb{width:220px;min-width:220px;background:var(--sb-bg);display:flex;flex-direction:column;overflow:hidden;transition:width .25s,min-width .25s;flex-shrink:0;z-index:30}
+.sb.c{width:52px;min-width:52px}
+.sb-logo{padding:15px 13px 12px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.sb-li{width:28px;height:28px;border-radius:6px;background:var(--do);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0}
+.sb-lt{overflow:hidden;white-space:nowrap}
+.sb-lt .t1{font-size:11px;font-weight:700;color:#fff}
+.sb-lt .t2{font-size:9px;color:rgba(255,255,255,.4);margin-top:1px}
+.sb.c .sb-lt{display:none}
+.sb-nav{flex:1;overflow-y:auto;padding:7px 0}
+.sb-sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sb-sec);padding:7px 15px 3px;white-space:nowrap;transition:opacity .2s}
+.sb.c .sb-sec{opacity:0}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 12px;cursor:pointer;border-left:3px solid transparent;transition:background .15s,border-color .15s;white-space:nowrap;overflow:hidden;user-select:none}
+.sb-item:hover{background:rgba(255,255,255,.07)}
+.sb-item.on{background:rgba(77,143,232,.2);border-left-color:var(--do)}
+.sb-ic{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(255,255,255,.08)}
+.sb-item.on .sb-ic{background:var(--do)}
+.sb-lbl{font-size:11px;font-weight:700;color:var(--sb-txt);overflow:hidden}
+.sb-item.on .sb-lbl{color:#fff}
+.sb-bdg{margin-left:auto;background:var(--pk);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:7px;flex-shrink:0}
+.sb.c .sb-lbl,.sb.c .sb-bdg{display:none}
+.sb-ai{margin:5px 9px;padding:8px 9px;border-radius:7px;background:linear-gradient(135deg,#003DA5,#71C5E8);cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s}
+.sb-ai:hover{opacity:.82}
+.sb-ai-ic{font-size:15px;flex-shrink:0}
+.sb-ai-tx{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.sb.c .sb-ai-tx{display:none}
+.sb-tog{padding:9px 13px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:7px;cursor:pointer;color:rgba(255,255,255,.38);font-size:10px;user-select:none}
+.sb-tog:hover{color:rgba(255,255,255,.75)}
+.sb-tog-ic{font-size:15px;flex-shrink:0;transition:transform .25s}
+.sb.c .sb-tog-ic{transform:rotate(180deg)}
+.sb.c .sb-tog-tx{display:none}
+
+/* ── MAIN ─────────────────────────────────────── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:50px;background:var(--tb-bg);border-bottom:1px solid var(--tb-bo);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0;z-index:20;transition:background .3s}
+.tb-title{font-size:13px;font-weight:700;color:var(--aze);flex:1}
+.tb-sub{font-size:10px;font-weight:400;color:var(--ts);margin-left:5px}
+
+/* THEME TOGGLE */
+.theme-btn{width:34px;height:20px;border-radius:10px;background:var(--bo);border:none;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
+.theme-btn::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--az);transition:transform .25s}
+[data-theme="dark"] .theme-btn{background:var(--az)}
+[data-theme="dark"] .theme-btn::after{transform:translateX(14px);background:#fff}
+.theme-icon{font-size:14px;cursor:pointer;user-select:none;flex-shrink:0}
+
+.btn{padding:6px 13px;border:none;border-radius:6px;font-family:Verdana,Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.btn-out{background:transparent;border:1px solid var(--bo);color:var(--ts)}
+.btn-out:hover{border-color:var(--az);color:var(--az)}
+.btn-do{background:var(--do);color:#fff}
+.btn-do:hover{background:var(--doe);color:#fff}
+.btn-az{background:var(--az);color:#fff}
+.btn-az:hover{opacity:.85}
+.btn-ve{background:var(--ve);color:#fff}
+.btn-ve:hover{opacity:.85}
+
+/* FILTER BAR */
+.fb{background:var(--tb-bg);border-bottom:1px solid var(--tb-bo);max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
+.fb.open{max-height:56px;padding:9px 16px}
+.fb-in{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.fb-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap}
+select{padding:4px 8px;border:1px solid var(--bo);border-radius:5px;font-family:Verdana,Arial,sans-serif;font-size:10px;color:var(--tx);background:var(--card);outline:none}
+select:focus{border-color:var(--az)}
+.fb-cl{font-size:10px;color:var(--pk);cursor:pointer;font-weight:700}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:16px}
+.pg{display:none}.pg.on{display:block}
+/* -- COVER v3 ------- */
+.pg-cover{padding:0;overflow:hidden}
+.cv{height:calc(100vh - 50px);background:var(--aze);display:flex;flex-direction:column;overflow:hidden}
+
+/* HERO BAR */
+.cv-hero{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 24px 14px;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0;gap:20px}
+.cv-hero-l{}
+.cv-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--doc);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.cv-eyebrow::before{content:'';display:block;width:16px;height:2px;background:var(--do)}
+.cv-h1{font-size:22px;font-weight:700;color:#fff;letter-spacing:-.4px;margin-bottom:3px}
+.cv-h1 span{color:var(--doc)}
+.cv-sub{font-size:10px;color:rgba(255,255,255,.38)}
+.cv-hero-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cv-cta{background:var(--do);color:#fff;border:none;border-radius:7px;padding:10px 20px;font-family:Verdana,Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(198,162,124,.3);transition:background .2s,transform .15s;white-space:nowrap}
+.cv-cta:hover{background:#b8895c;transform:translateY(-1px)}
+
+/* KPI STRIP */
+.cv-kstrip{display:flex;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.cv-ki{flex:1;padding:9px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.07)}
+.cv-ki:last-child{border-right:none}
+.cv-ki.warn{background:rgba(227,28,121,.07)}
+.cv-ki.ok{background:rgba(0,184,154,.07)}
+.cv-ki.gold{background:rgba(198,162,124,.07)}
+.cv-kiv{font-size:15px;font-weight:700;color:#fff;line-height:1;margin-bottom:2px}
+.cv-kil{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:rgba(255,255,255,.38)}
+.cv-kis{font-size:7px;color:rgba(255,255,255,.2);margin-top:1px}
+
+/* BODY — 3 columns */
+.cv-body{flex:1;display:grid;grid-template-columns:290px 1fr 230px;overflow:hidden;min-height:0}
+
+/* LEFT — description + alerts */
+.cv-left{border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;overflow:hidden}
+.cv-desc{padding:14px 16px 10px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.cv-desc-tit{font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cv-modules-list{display:flex;flex-direction:column;gap:4px}
+.cv-mod-item{display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.cv-mod-ic{font-size:12px;flex-shrink:0}
+.cv-mod-info{flex:1}
+.cv-mod-name{font-size:9px;font-weight:700;color:rgba(255,255,255,.7)}
+.cv-mod-desc{font-size:8px;color:rgba(255,255,255,.3);margin-top:1px;line-height:1.3}
+.cv-alerts-wrap{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.cv-sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.25);margin-bottom:2px}
+.cv-al{display:flex;align-items:flex-start;gap:7px;background:rgba(255,255,255,.05);border-radius:6px;padding:8px 9px;border-left:3px solid rgba(255,255,255,.12)}
+.cv-al.w{border-left-color:var(--pk);background:rgba(227,28,121,.1)}
+.cv-al.g{border-left-color:var(--ve);background:rgba(0,184,154,.1)}
+.cv-al-ic{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;color:#fff;background:rgba(255,255,255,.1)}
+.cv-al.w .cv-al-ic{background:rgba(227,28,121,.3);color:var(--pk)}
+.cv-al.g .cv-al-ic{background:rgba(0,184,154,.3);color:var(--ve)}
+.cv-al-b{flex:1}
+.cv-al-t{font-size:9px;font-weight:700;color:#fff;margin-bottom:1px;line-height:1.3}
+.cv-al-d{font-size:8px;color:rgba(255,255,255,.38);line-height:1.35}
+.cv-al-v{font-size:13px;font-weight:700;color:#fff;flex-shrink:0;white-space:nowrap}
+
+/* CENTER — charts */
+.cv-center{border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.cv-chart-top{flex:1;padding:10px 14px 6px;display:flex;flex-direction:column;min-height:0;border-bottom:1px solid rgba(255,255,255,.08)}
+.cv-chart-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.25);margin-bottom:6px;flex-shrink:0}
+.cv-chart-wrap{flex:1;position:relative;min-height:0}
+.cv-chart-wrap canvas{position:absolute;top:0;left:0;width:100%!important;height:100%!important}
+.cv-chart-bot{display:grid;grid-template-columns:1fr 1fr;flex-shrink:0;height:160px;border-top:0}
+.cv-donut-block{padding:8px 14px;display:flex;flex-direction:column;overflow:hidden}
+.cv-donut-block:first-child{border-right:1px solid rgba(255,255,255,.08)}
+.cv-donut-wrap{flex:1;position:relative;min-height:0}
+.cv-donut-wrap canvas{position:absolute;top:0;left:0;width:100%!important;height:100%!important}
+
+/* RIGHT — nav */
+.cv-right{display:flex;flex-direction:column;overflow:hidden}
+.cv-nav-wrap{flex:1;padding:12px 12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.cv-nav{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.15s;color:rgba(255,255,255,.62);font-size:10px;font-weight:700}
+.cv-nav:hover{background:var(--do);color:#fff;border-color:var(--do);transform:translateX(2px)}
+.cv-nav-ic{font-size:13px;flex-shrink:0;width:20px;text-align:center}
+.cv-nav span:nth-child(2){flex:1}
+.cv-nav-arr{opacity:.4;font-size:11px}
+.cv-nav:hover .cv-nav-arr{opacity:1}
+.cv-cta2{margin:0 12px 10px;background:transparent;border:1px solid rgba(198,162,124,.4);color:var(--doc);border-radius:6px;padding:9px;font-family:Verdana,Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;width:calc(100% - 24px);transition:.2s;text-align:center}
+.cv-cta2:hover{background:var(--do);color:#fff;border-color:var(--do)}
+
+.cv-stag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(0,61,165,.3);color:rgba(113,197,232,.9);border:1px solid rgba(113,197,232,.2)}
+/* FOOTER */
+.cv-ft{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;border-top:1px solid rgba(255,255,255,.07);font-size:8px;color:rgba(255,255,255,.2);flex-shrink:0}
+
+lign-items:center;justify-content:space-between;padding:14px 22px 12px;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.cv-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--doc);margin-bottom:3px}
+.cv-h1{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.cv-sep{color:var(--do);opacity:.7}
+.cv-unit{font-size:10px;color:rgba(255,255,255,.38);margin-top:2px}
+.cv-cta{flex-shrink:0;background:var(--do);color:#fff;border:none;border-radius:7px;padding:10px 20px;font-family:Verdana,Arial,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 3px 12px rgba(198,162,124,.35);transition:background .2s,transform .15s}
+.cv-cta:hover{background:#b8895c;transform:translateY(-1px)}
+.cv-kstrip{display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.cv-kitem{flex:1;padding:9px 10px;text-align:center}
+.cv-kitem.warn{background:rgba(227,28,121,.08)}
+.cv-kitem.ok{background:rgba(0,184,154,.08)}
+.cv-kitem.gold{background:rgba(198,162,124,.08)}
+.cv-kv{font-size:16px;font-weight:700;color:#fff;line-height:1;margin-bottom:2px}
+.cv-kl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:rgba(255,255,255,.42)}
+.cv-ks{font-size:7px;color:rgba(255,255,255,.22);margin-top:1px}
+.cv-kdiv{width:1px;background:rgba(255,255,255,.08);flex-shrink:0}
+.cv-mid{flex:1;display:grid;grid-template-columns:300px 1fr 220px;overflow:hidden}
+.cv-alerts-col{padding:12px 14px;display:flex;flex-direction:column;gap:7px;border-right:1px solid rgba(255,255,255,.08);overflow-y:auto;align-self:stretch}
+.cv-sec-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.26);margin-bottom:3px}
+.cv-alert{display:flex;align-items:flex-start;gap:7px;background:rgba(255,255,255,.05);border-radius:6px;padding:8px 9px;border-left:3px solid rgba(255,255,255,.12)}
+.cv-alert.warn{border-left-color:var(--pk);background:rgba(227,28,121,.1)}
+.cv-alert.ok{border-left-color:var(--ve);background:rgba(0,184,154,.1)}
+.cv-al-ico{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;color:#fff;background:rgba(255,255,255,.1)}
+.cv-alert.warn .cv-al-ico{background:rgba(227,28,121,.3);color:var(--pk)}
+.cv-alert.ok .cv-al-ico{background:rgba(0,184,154,.3);color:var(--ve)}
+.cv-al-body{flex:1}
+.cv-al-tit{font-size:9px;font-weight:700;color:#fff;margin-bottom:2px;line-height:1.3}
+.cv-al-txt{font-size:8px;color:rgba(255,255,255,.38);line-height:1.4}
+.cv-al-val{font-size:13px;font-weight:700;color:#fff;flex-shrink:0;white-space:nowrap}
+.cv-charts-col{padding:10px 12px;display:flex;flex-direction:column;gap:7px;border-right:1px solid rgba(255,255,255,.08);overflow:hidden;min-height:0}
+.cv-mini-chart{flex:1;min-height:0;overflow:hidden;position:relative}
+.cv-mini-row{display:flex;gap:7px;flex-shrink:0;height:120px}
+.cv-mini-block{flex:1;background:rgba(255,255,255,.04);border-radius:5px;padding:6px;overflow:hidden;position:relative}
+.cv-nav-col{padding:10px 12px;display:flex;flex-direction:column;gap:0;overflow-y:auto}
+.cv-navs{display:flex;flex-direction:column;gap:3px;margin-top:3px}
+.cv-nav{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:5px;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.15s;color:rgba(255,255,255,.62);font-size:9px;font-weight:700}
+.cv-nav:hover{background:var(--do);color:#fff;border-color:var(--do)}
+.cv-nav-ic{font-size:12px;flex-shrink:0}
+.cv-nav span:nth-child(2){flex:1}
+.cv-nav-arr{font-size:11px;opacity:.45}
+.cv-nav:hover .cv-nav-arr{opacity:1}
+.cv-footer{display:flex;align-items:center;justify-content:space-between;padding:6px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:8px;color:rgba(255,255,255,.22);flex-shrink:0}
+
+
+/* ── INNER PAGES ──────────────────────────────── */
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;flex-wrap:wrap;gap:8px}
+.ph-t{font-size:15px;font-weight:700;color:var(--aze)}
+.ph-r{display:flex;align-items:center;gap:6px}
+.bdg{display:inline-block;padding:3px 9px;border-radius:8px;font-size:9px;font-weight:700;background:var(--az);color:#fff}
+.bdg.g{background:var(--ve)}.bdg.d{background:var(--do)}.bdg.r{background:var(--pk)}.bdg.pk{background:var(--pk)}
+
+/* KPI GRID */
+.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:12px}
+.kc{background:var(--card);border-radius:7px;padding:10px 12px;border-top:3px solid var(--az);box-shadow:var(--shadow);transition:background .3s}
+.kc.g{border-top-color:var(--ve)}.kc.r{border-top-color:var(--pk)}.kc.d{border-top-color:var(--do)}.kc.c{border-top-color:var(--azc)}
+.kl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ts);margin-bottom:4px}
+.kv{font-size:19px;font-weight:700;color:var(--aze);line-height:1;transition:color .3s}
+.ks{font-size:9px;color:var(--ts);margin-top:2px}
+.kt{font-size:9px;font-weight:700;margin-top:3px}
+.ku{color:var(--pk)}.kd{color:var(--ve)}.kn{color:var(--ts)}
+
+/* CHART CARDS */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
+.cg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:11px}
+.cc{background:var(--card);border-radius:7px;padding:13px;box-shadow:var(--shadow);transition:background .3s}
+.cc.s2{grid-column:span 2}
+.ct{font-size:11px;font-weight:700;color:var(--aze);margin-bottom:2px;transition:color .3s}
+.ci{font-size:9px;color:var(--ts);margin-bottom:9px;line-height:1.4}
+.ci strong{color:var(--az)}
+.note{background:var(--card2);border-left:4px solid var(--do);padding:7px 11px;border-radius:4px;font-size:9px;color:var(--ts);margin-bottom:11px;line-height:1.5;transition:background .3s}
+
+/* TABLE */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:10px}
+thead{background:var(--aze);color:#fff}
+thead th{padding:7px 9px;text-align:left;font-weight:700;white-space:nowrap}
+tbody tr:nth-child(even){background:var(--card2)}
+tbody tr:hover{background:var(--bo2)}
+tbody td{padding:6px 9px;border-bottom:1px solid var(--bo);white-space:nowrap}
+.tag{display:inline-block;padding:2px 7px;border-radius:5px;font-size:9px;font-weight:700}
+.tg{background:#d4f5ee;color:#006b53}.ty{background:#fff3cd;color:#856404}
+.tr{background:#fde8f0;color:#9d0b48}.tb{background:#dce8ff;color:#002855}
+[data-theme="dark"] .tg{background:#004d3a;color:#00e0a0}
+[data-theme="dark"] .ty{background:#4d3800;color:#ffd060}
+[data-theme="dark"] .tr{background:#4d0028;color:#ff88bb}
+[data-theme="dark"] .tb{background:#001a4d;color:#88b0ff}
+
+/* SCENARIO CARDS */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.sc-c{border-radius:9px;padding:14px;color:#fff}
+.sc-c h3{font-size:12px;font-weight:700;margin-bottom:2px}
+.sc-prob{font-size:9px;opacity:.72;margin-bottom:9px}
+.sc-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:9px}
+.sc-kpi{background:rgba(255,255,255,.15);border-radius:5px;padding:6px 4px;text-align:center}
+.sc-kpi .sv{font-size:14px;font-weight:700}.sc-kpi .sl{font-size:8px;opacity:.7;margin-top:1px}
+.sc-acoes{background:rgba(255,255,255,.11);border-radius:6px;padding:8px}
+.sc-acoes h4{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.72;margin-bottom:4px}
+.sc-acoes li{font-size:9px;margin-left:12px;margin-bottom:2px;opacity:.85;line-height:1.4}
+
+/* PLANO DE ACAO */
+.pa-tabs{display:flex;gap:4px;margin-bottom:13px;flex-wrap:wrap}
+.pa-tab{padding:6px 14px;border:1px solid var(--bo);border-radius:5px;cursor:pointer;font-size:10px;font-weight:700;color:var(--ts);background:var(--card);transition:.15s}
+.pa-tab:hover,.pa-tab.on{background:var(--az);color:#fff;border-color:var(--az)}
+.pa-view{display:none}.pa-view.on{display:block}
+
+/* 5W2H TABLE */
+.w2h-grid{display:grid;grid-template-columns:120px 1fr;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--bo);margin-bottom:12px}
+.w2h-hdr{background:var(--aze);color:#fff;font-size:10px;font-weight:700;padding:10px 13px;display:flex;align-items:flex-start;flex-direction:column;gap:2px}
+.w2h-hdr small{font-size:8px;opacity:.6;font-weight:400}
+.w2h-body{background:var(--card);padding:10px 13px;font-size:10px;color:var(--tx);border-bottom:1px solid var(--bo);line-height:1.5;transition:background .3s}
+.w2h-hdr:not(:last-child){border-bottom:1px solid rgba(255,255,255,.12)}
+
+/* RACI */
+.raci-wrap{overflow-x:auto;margin-bottom:12px}
+.raci-table{width:100%;border-collapse:collapse;font-size:9px;min-width:700px}
+.raci-table th{background:var(--aze);color:#fff;padding:8px 10px;text-align:center;font-weight:700}
+.raci-table th:first-child{text-align:left;width:200px}
+.raci-table td{padding:7px 10px;border-bottom:1px solid var(--bo);text-align:center;vertical-align:middle}
+.raci-table td:first-child{text-align:left;font-weight:700;color:var(--aze)}
+.raci-table tr:nth-child(even) td{background:var(--card2)}
+.r-R{background:#dce8ff;color:#002855;border-radius:4px;padding:2px 6px;font-weight:700;display:inline-block}
+.r-A{background:#fde8f0;color:#9d0b48;border-radius:4px;padding:2px 6px;font-weight:700;display:inline-block}
+.r-C{background:#fff3cd;color:#856404;border-radius:4px;padding:2px 6px;font-weight:700;display:inline-block}
+.r-I{background:#d4f5ee;color:#006b53;border-radius:4px;padding:2px 6px;font-weight:700;display:inline-block}
+[data-theme="dark"] .r-R{background:#001a4d;color:#88b0ff}
+[data-theme="dark"] .r-A{background:#4d0028;color:#ff88bb}
+[data-theme="dark"] .r-C{background:#4d3800;color:#ffd060}
+[data-theme="dark"] .r-I{background:#004d3a;color:#00e0a0}
+
+/* ACOES KANBAN */
+.kanban{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.kan-col{background:var(--card2);border-radius:8px;padding:12px;border-top:3px solid var(--az);transition:background .3s}
+.kan-col.r{border-top-color:var(--pk)}.kan-col.y{border-top-color:var(--do)}.kan-col.g{border-top-color:var(--ve)}
+.kan-tit{font-size:10px;font-weight:700;color:var(--aze);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.kan-card{background:var(--card);border-radius:6px;padding:10px 11px;margin-bottom:7px;box-shadow:var(--shadow);border-left:3px solid var(--az);transition:background .3s}
+.kan-card.r{border-left-color:var(--pk)}.kan-card.y{border-left-color:var(--do)}.kan-card.g{border-left-color:var(--ve)}
+.kan-card-tit{font-size:10px;font-weight:700;color:var(--aze);margin-bottom:3px}
+.kan-card-det{font-size:9px;color:var(--ts);line-height:1.4}
+.kan-card-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.kan-tag{font-size:8px;padding:1px 6px;border-radius:4px;font-weight:700}
+.kan-tag-r{background:#fde8f0;color:#9d0b48}
+.kan-tag-y{background:#fff3cd;color:#856404}
+.kan-tag-g{background:#d4f5ee;color:#006b53}
+[data-theme="dark"] .kan-tag-r{background:#4d0028;color:#ff88bb}
+[data-theme="dark"] .kan-tag-y{background:#4d3800;color:#ffd060}
+[data-theme="dark"] .kan-tag-g{background:#004d3a;color:#00e0a0}
+
+/* OPEX/CAPEX TABS */
+.fin-tabs{display:flex;gap:3px;margin-bottom:12px}
+.fin-tab{padding:6px 16px;border:1px solid var(--bo);border-radius:5px;cursor:pointer;font-size:10px;font-weight:700;color:var(--ts);background:var(--card);transition:.15s}
+.fin-tab:hover,.fin-tab.on{background:var(--az);color:#fff;border-color:var(--az)}
+.fin-view{display:none}.fin-view.on{display:block}
+
+/* PROGRESS BAR */
+.progbar{height:5px;background:var(--bo);border-radius:3px;overflow:hidden;margin-top:4px}
+.progfill{height:100%;border-radius:3px;transition:width .5s}
+
+/* AI */
+.ai-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200}
+.ai-ov.open{display:block}
+.ai-dr{position:fixed;right:0;top:0;bottom:0;width:330px;background:var(--card);z-index:201;display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.2);transform:translateX(100%);transition:transform .3s,background .3s}
+.ai-ov.open .ai-dr{transform:translateX(0)}
+.ai-hd{background:var(--aze);padding:13px 15px;display:flex;align-items:center;gap:8px}
+.ai-hd-tx h3{font-size:12px;font-weight:700;color:#fff}
+.ai-hd-tx p{font-size:9px;color:rgba(255,255,255,.48);margin-top:1px}
+.ai-off{background:var(--ve);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:7px;margin-left:auto}
+.ai-cls{background:none;border:none;color:rgba(255,255,255,.5);font-size:17px;cursor:pointer;margin-left:5px}
+.ai-msgs{flex:1;overflow-y:auto;padding:11px;display:flex;flex-direction:column;gap:8px;background:var(--card2);transition:background .3s}
+.ai-msg{padding:8px 10px;border-radius:7px;font-size:10px;line-height:1.5;max-width:92%}
+.ai-msg.u{background:var(--az);color:#fff;align-self:flex-end}
+.ai-msg.b{background:var(--card);border:1px solid var(--bo);align-self:flex-start;color:var(--tx)}
+.ai-msg.b strong{color:var(--az)}
+.ai-q{padding:8px 11px;border-top:1px solid var(--bo);display:flex;flex-wrap:wrap;gap:4px}
+.ai-qb{background:var(--card2);border:1px solid var(--bo);border-radius:10px;padding:3px 8px;font-size:9px;cursor:pointer;color:var(--az);font-weight:700;transition:.15s}
+.ai-qb:hover{background:var(--az);color:#fff}
+.ai-inp-row{padding:8px 11px;border-top:1px solid var(--bo);display:flex;gap:6px}
+.ai-inp{flex:1;border:1px solid var(--bo);border-radius:5px;padding:6px 8px;font-family:Verdana,Arial,sans-serif;font-size:10px;outline:none;background:var(--card2);color:var(--tx)}
+.ai-inp:focus{border-color:var(--az)}
+
+/* PDF MODAL */
+.pm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;overflow-y:auto;padding:16px}
+.pm.open{display:flex;align-items:flex-start;justify-content:center}
+.pm-wrap{background:#fff;width:780px;border-radius:5px;overflow:hidden;box-shadow:0 8px 48px rgba(0,0,0,.35)}
+.pm-ctrl{background:#f0f0f0;padding:9px 16px;display:flex;gap:7px;align-items:center;border-bottom:1px solid #ddd}
+.pm-hint{font-size:9px;color:#888;margin-left:4px}
+.pm-pg{padding:28px 32px;min-height:980px;border-bottom:3px dashed #ddd;color:#0D1E3A}
+.pm-pg:last-child{border-bottom:none}
+.pm-hbar{display:grid;grid-template-columns:1fr auto;align-items:start;gap:12px;margin-bottom:18px;padding-bottom:10px;border-bottom:3px solid #003DA5}
+.pm-h1{font-size:16px;font-weight:700;color:#002855}
+.pm-sub{font-size:9px;color:#6B7FA3;margin-top:2px}
+.pm-date{text-align:right;font-size:9px;color:#6B7FA3}
+.pm-date strong{font-size:13px;color:#003DA5;display:block;margin-bottom:2px}
+.pm-sec{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#003DA5;border-bottom:2px solid #71C5E8;padding-bottom:3px;margin:13px 0 8px}
+.pm-kr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:11px}
+.pm-kc{border:1.5px solid #D8DEF0;border-radius:5px;padding:9px;text-align:center;border-top:3px solid #003DA5}
+.pm-kc.g{border-top-color:#009681}.pm-kc.r{border-top-color:#E31C79}.pm-kc.d{border-top-color:#C6A27C}
+.pm-kc .pv{font-size:18px;font-weight:700;color:#002855}
+.pm-kc .pl{font-size:8px;color:#6B7FA3;text-transform:uppercase;letter-spacing:.4px}
+.pm-kc .ps{font-size:8px;color:#6B7FA3;margin-top:2px}
+.pm-2c{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:11px}
+.pm-box{background:#f0f4ff;border-left:4px solid #003DA5;padding:8px 10px;border-radius:4px;margin-bottom:6px;font-size:9px}
+.pm-box h4{font-weight:700;color:#003DA5;margin-bottom:2px}
+.pm-box p{color:#333;line-height:1.5}
+.pm-box.w{background:#fffbf0;border-left-color:#f0a500}
+.pm-box.c{background:#fff2f7;border-left-color:#E31C79}
+.pm-mt{width:100%;border-collapse:collapse;font-size:9px}
+.pm-mt th{background:#002855;color:#fff;padding:4px 7px;text-align:left}
+.pm-mt td{padding:4px 7px;border-bottom:1px solid #eee}
+.pm-mt tr:nth-child(even) td{background:#f8f9fc}
+.pm-als{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}
+.pm-al{border-radius:5px;padding:8px;border-left:3px solid #009681;background:#f0faf7;font-size:9px}
+.pm-al.w{border-left-color:#f0a500;background:#fffbf0}
+.pm-al.c{border-left-color:#E31C79;background:#fff2f7}
+.pm-al h4{font-weight:700;margin-bottom:2px}
+.pm-ft{background:#002855;color:rgba(255,255,255,.55);font-size:8px;padding:7px 32px;display:flex;justify-content:space-between}
+
+/* SIMULADOR */
+input[type=range]{accent-color:#003DA5}
+</style>
+</head>
+<body>
+
+<script>
+/* DATA  --  ES5 pure, zero backticks */
+var D={"meta":{"versao":"1.0","data_base":"Jun/2025","unidade":"Hospital RJ","headcount_base":512},"cargos_salarios":[{"cargo":"HRBP Senior","area":"Gente & Gestao","nivel":"Senior","headcount":4,"salario_rededor":12800,"salario_sirio":15200,"salario_hapvida":9800,"salario_fleury":13500,"salario_dasa":11200,"salario_mercado_p50":12500,"salario_mercado_p75":14800},{"cargo":"HRBP Pleno","area":"Gente & Gestao","nivel":"Pleno","headcount":8,"salario_rededor":8900,"salario_sirio":10500,"salario_hapvida":7200,"salario_fleury":9400,"salario_dasa":8100,"salario_mercado_p50":8800,"salario_mercado_p75":10200},{"cargo":"Analista RH Senior","area":"Gente & Gestao","nivel":"Senior","headcount":6,"salario_rededor":7200,"salario_sirio":8800,"salario_hapvida":5900,"salario_fleury":7800,"salario_dasa":6900,"salario_mercado_p50":7000,"salario_mercado_p75":8500},{"cargo":"Analista RH Pleno","area":"Gente & Gestao","nivel":"Pleno","headcount":10,"salario_rededor":5400,"salario_sirio":6500,"salario_hapvida":4400,"salario_fleury":5800,"salario_dasa":5100,"salario_mercado_p50":5300,"salario_mercado_p75":6400},{"cargo":"Analista RH Junior","area":"Gente & Gestao","nivel":"Junior","headcount":8,"salario_rededor":3200,"salario_sirio":3900,"salario_hapvida":2800,"salario_fleury":3500,"salario_dasa":3100,"salario_mercado_p50":3100,"salario_mercado_p75":3800},{"cargo":"Enfermeiro Senior","area":"Assistencial","nivel":"Senior","headcount":52,"salario_rededor":8400,"salario_sirio":11200,"salario_hapvida":6500,"salario_fleury":7200,"salario_dasa":7800,"salario_mercado_p50":8000,"salario_mercado_p75":10000},{"cargo":"Enfermeiro Pleno","area":"Assistencial","nivel":"Pleno","headcount":68,"salario_rededor":6200,"salario_sirio":8000,"salario_hapvida":4900,"salario_fleury":5800,"salario_dasa":5900,"salario_mercado_p50":5900,"salario_mercado_p75":7500},{"cargo":"Tecnico Enfermagem","area":"Assistencial","nivel":"Tecnico","headcount":184,"salario_rededor":3800,"salario_sirio":4900,"salario_hapvida":3100,"salario_fleury":3600,"salario_dasa":3700,"salario_mercado_p50":3700,"salario_mercado_p75":4500},{"cargo":"Auxiliar Enfermagem","area":"Assistencial","nivel":"Operacional","headcount":96,"salario_rededor":2600,"salario_sirio":3200,"salario_hapvida":2200,"salario_fleury":2700,"salario_dasa":2500,"salario_mercado_p50":2500,"salario_mercado_p75":3100},{"cargo":"Medico Plantonista","area":"Assistencial","nivel":"Especialista","headcount":38,"salario_rededor":18500,"salario_sirio":24000,"salario_hapvida":14000,"salario_fleury":16000,"salario_dasa":17500,"salario_mercado_p50":18000,"salario_mercado_p75":23000},{"cargo":"Coordenador Medico","area":"Assistencial","nivel":"Gestao","headcount":6,"salario_rededor":22000,"salario_sirio":28000,"salario_hapvida":17000,"salario_fleury":20000,"salario_dasa":21000,"salario_mercado_p50":21000,"salario_mercado_p75":27000},{"cargo":"Gerente Unidade","area":"Gestao","nivel":"Gestao","headcount":3,"salario_rededor":16500,"salario_sirio":22000,"salario_hapvida":12000,"salario_fleury":15000,"salario_dasa":15500,"salario_mercado_p50":16000,"salario_mercado_p75":21000},{"cargo":"Supervisor Operacional","area":"Gestao","nivel":"Lideranca","headcount":12,"salario_rededor":7800,"salario_sirio":9500,"salario_hapvida":5900,"salario_fleury":7200,"salario_dasa":7300,"salario_mercado_p50":7500,"salario_mercado_p75":9000},{"cargo":"Assist. Administrativo","area":"Administrativo","nivel":"Operacional","headcount":28,"salario_rededor":2400,"salario_sirio":2900,"salario_hapvida":2000,"salario_fleury":2500,"salario_dasa":2300,"salario_mercado_p50":2300,"salario_mercado_p75":2800},{"cargo":"Analista Financeiro","area":"Administrativo","nivel":"Pleno","headcount":6,"salario_rededor":6800,"salario_sirio":8200,"salario_hapvida":5400,"salario_fleury":7000,"salario_dasa":6500,"salario_mercado_p50":6600,"salario_mercado_p75":8000},{"cargo":"Nutricionista","area":"Assistencial","nivel":"Especialista","headcount":8,"salario_rededor":4800,"salario_sirio":6200,"salario_hapvida":3800,"salario_fleury":4500,"salario_dasa":4600,"salario_mercado_p50":4700,"salario_mercado_p75":5900},{"cargo":"Assistente Social","area":"Assistencial","nivel":"Especialista","headcount":5,"salario_rededor":4200,"salario_sirio":5500,"salario_hapvida":3400,"salario_fleury":4000,"salario_dasa":4100,"salario_mercado_p50":4100,"salario_mercado_p75":5200},{"cargo":"Farmaceutico","area":"Assistencial","nivel":"Especialista","headcount":7,"salario_rededor":6400,"salario_sirio":8000,"salario_hapvida":5100,"salario_fleury":6000,"salario_dasa":6200,"salario_mercado_p50":6200,"salario_mercado_p75":7700}],"movimentacao":[{"mes":"Jan","adm":9,"desl":7,"turn":1.56,"abst":4.2,"hc":512},{"mes":"Fev","adm":7,"desl":6,"turn":1.27,"abst":4.0,"hc":514},{"mes":"Mar","adm":6,"desl":10,"turn":1.56,"abst":4.5,"hc":515},{"mes":"Abr","adm":8,"desl":7,"turn":1.46,"abst":4.3,"hc":511},{"mes":"Mai","adm":8,"desl":7,"turn":1.46,"abst":4.6,"hc":512},{"mes":"Jun","adm":7,"desl":8,"turn":1.46,"abst":5.2,"hc":513},{"mes":"Jul","adm":5,"desl":11,"turn":1.56,"abst":5.5,"hc":512},{"mes":"Ago","adm":8,"desl":7,"turn":1.46,"abst":4.8,"hc":506},{"mes":"Set","adm":9,"desl":6,"turn":1.46,"abst":4.4,"hc":507},{"mes":"Out","adm":6,"desl":10,"turn":1.56,"abst":4.7,"hc":510},{"mes":"Nov","adm":8,"desl":7,"turn":1.46,"abst":4.9,"hc":506},{"mes":"Dez","adm":9,"desl":6,"turn":1.46,"abst":5.3,"hc":507}],"motivos":[{"m":"Pedido demissao","p":34},{"m":"Melhor oportunidade","p":26},{"m":"Demissao s/ justa causa","p":18},{"m":"Desempenho","p":12},{"m":"Aposentadoria","p":7},{"m":"Outros","p":3}],"nineBox":[{"q":"Alto Potencial","p":22,"n":113},{"q":"Star/High Performer","p":16,"n":82},{"q":"Comprometido","p":23,"n":118},{"q":"Core","p":14,"n":72},{"q":"Questionavel","p":8,"n":41},{"q":"Inconsistente","p":5,"n":26},{"q":"Risco","p":6,"n":31},{"q":"Em Observacao","p":4,"n":21},{"q":"Baixo Desempenho","p":2,"n":8}],"clima":[{"p":"Lideranca","u":82,"b":72},{"p":"Orgulho","u":78,"b":70},{"p":"Camaradagem","u":75,"b":68},{"p":"Credibilidade","u":71,"b":65},{"p":"Imparcialidade","u":68,"b":63},{"p":"Respeito","u":74,"b":67},{"p":"Remuneracao","u":58,"b":55},{"p":"Carreira","u":62,"b":58}],"opex":[{"l":"Salarios e Encargos","cat":"Folha","om":3650000,"oa":43800000,"ra":45358276,"vp":3.6,"st":"ok"},{"l":"Beneficios VT+VR+Plano","cat":"Beneficios","om":820000,"oa":9840000,"ra":9849844,"vp":0.1,"st":"ok"},{"l":"Horas Extras","cat":"Folha","om":145000,"oa":1740000,"ra":1863542,"vp":7.1,"st":"alerta"},{"l":"Recrutamento & Selecao","cat":"R&S","om":92000,"oa":1104000,"ra":1146977,"vp":3.9,"st":"ok"},{"l":"Treinamento & Desenvolvimento","cat":"T&D","om":68000,"oa":816000,"ra":872678,"vp":6.9,"st":"alerta"},{"l":"Medicina do Trabalho","cat":"SSO","om":38000,"oa":456000,"ra":468343,"vp":2.7,"st":"ok"},{"l":"Uniformes e EPIs","cat":"Operacional","om":24000,"oa":288000,"ra":296838,"vp":3.1,"st":"ok"},{"l":"Software RH HRIS","cat":"TI","om":18000,"oa":216000,"ra":212431,"vp":-1.7,"st":"ok"},{"l":"Consultorias RH","cat":"Outros","om":15000,"oa":180000,"ra":174038,"vp":-3.3,"st":"ok"},{"l":"Eventos Corporativos","cat":"Engajamento","om":22000,"oa":264000,"ra":285435,"vp":8.1,"st":"alerta"}],"capex":[{"l":"Sistema HRIS - Upgrade","cat":"TI","valor":480000,"exec":320000,"prev":"Dez/2025","st":"ok"},{"l":"Sala de Treinamento - Reforma","cat":"Infraestrutura","valor":220000,"exec":180000,"prev":"Set/2025","st":"alerta"},{"l":"Plataforma LMS e-Learning","cat":"TI","valor":160000,"exec":160000,"prev":"Jun/2025","st":"ok"},{"l":"Equipamentos Medicina do Trabalho","cat":"Equipamentos","valor":95000,"exec":42000,"prev":"Nov/2025","st":"ok"},{"l":"Mobiliario RH - Nova Sede","cat":"Infraestrutura","valor":85000,"exec":0,"prev":"Jan/2026","st":"planej"},{"l":"Software Recrutamento ATS","cat":"TI","valor":72000,"exec":72000,"prev":"Mar/2025","st":"ok"}],"players":[{"e":"Prime D'Or","t":18,"a":4.8,"n":42,"m":75,"h":32,"c":60000},{"e":"Sirio-Libanes","t":12,"a":4.2,"n":51,"m":73,"h":40,"c":9000},{"e":"Hapvida NDI","t":26,"a":5.8,"n":18,"m":70,"h":18,"c":80000},{"e":"Fleury+Pardini","t":20,"a":4.5,"n":38,"m":72,"h":28,"c":22000},{"e":"Dasa+Amil","t":24,"a":5.5,"n":22,"m":69,"h":20,"c":35000},{"e":"Mater Dei","t":21,"a":5.0,"n":28,"m":68,"h":24,"c":8000},{"e":"ANAHP Media","t":22,"a":5.3,"n":30,"m":68,"h":24,"c":0}],"cenarios":[{"nome":"Otimista","prob":25,"cor":"#009681","t":15.2,"a":4.2,"n":48,"hc":545,"ck":0,"acoes":["Acelerar programa de trainee","Criar plano carreira em Y","Implementar PLR por qualidade","Lancar Academia Interna"]},{"nome":"Base","prob":55,"cor":"#003DA5","t":18.5,"a":4.9,"n":43,"hc":520,"ck":180,"acoes":["Revisao salarial ao P50","Retencao tecnicos enfermagem","Expandir EAP saude mental","Estruturar sucessao gestores"]},{"nome":"Pessimista","prob":20,"cor":"#E31C79","t":24.8,"a":6.1,"n":32,"hc":472,"ck":-320,"acoes":["PDV estruturado","Revisao terceiros e HE","Task force de clima","Comunicacao sobre cortes"]},{"nome":"Fusao M&A","prob":15,"cor":"#C6A27C","t":28.0,"a":6.8,"n":28,"hc":720,"ck":850,"acoes":["Due diligence de cultura","Plano integracao 100 dias","Mapear talentos criticos","Harmonizar politicas RH"]}],"k":{"hc":512,"turn":18.4,"abst":4.8,"enps":42,"cob_aval":88,"td_h":32,"prom_int":62,"mulheres":68,"folha_m":4892000,"custo_turn_k":799,"vagas":14,"t_contrat":22}};
+
+/* -- HELPERS ------------------------------------ */
+function fR(v){return 'R$ '+parseFloat(v).toLocaleString('pt-BR');}
+function fN(v){return v?parseFloat(v).toLocaleString('pt-BR'):'--';}
+function getC(){
+  var th=document.documentElement.getAttribute('data-theme');
+  var dark=(th==='dark');
+  return {
+    az:dark?'#4D8FE8':'#003DA5', aze:dark?'#1A2E50':'#002855',
+    azc:dark?'#71C5E8':'#71C5E8', do_:dark?'#C6A27C':'#C6A27C',
+    ve:dark?'#00B89A':'#009681', pk:dark?'#F04D98':'#E31C79',
+    la:dark?'#FF7A40':'#FA4616', ci:dark?'#4A6080':'#A0AABF',
+    tx:dark?'#E8EEF8':'#0D1E3A', ts:dark?'#7A90B0':'#6B7FA3',
+    grid:dark?'rgba(255,255,255,.06)':'rgba(0,0,0,.06)',
+    tick:dark?'rgba(255,255,255,.5)':'rgba(0,0,0,.55)'
+  };
+}
+var CHARTS={};
+function mkC(id,cfg){
+  if(CHARTS[id]){CHARTS[id].destroy();}
+  var el=document.getElementById(id);
+  if(!el)return;
+  CHARTS[id]=new Chart(el,cfg);
+}
+Chart.register(ChartDataLabels);
+</script>
+
+<div class="shell">
+<!-- SIDEBAR -->
+<nav class="sb c" id="sb">
+  <div class="sb-logo" onclick="toggleSb()">
+    <div class="sb-li" style="background:transparent;padding:0;overflow:hidden"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">  <defs>    <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">      <stop offset="0%" stop-color="#C6A27C"/>      <stop offset="100%" stop-color="#F0C88A"/>    </linearGradient>  </defs>  <circle cx="14" cy="14" r="13" fill="#002855"/>  <text x="14" y="18.5" font-family="Georgia,serif" font-size="12" font-weight="bold" fill="url(#lg1)" text-anchor="middle">P'</text></svg></div>
+    <div class="sb-lt"><div class="t1">PRIME D'OR</div><div class="t2">Prime D'Or Analytics</div></div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-sec">Principal</div>
+    <div class="sb-item on" id="nav-cover" onclick="goPage('cover',this)"><div class="sb-ic">&#127968;</div><span class="sb-lbl">Capa</span></div>
+    <div class="sb-item" id="nav-turnover" onclick="goPage('turnover',this)"><div class="sb-ic">&#128260;</div><span class="sb-lbl">Turnover</span><span class="sb-bdg">!</span></div>
+    <div class="sb-item" id="nav-salarios" onclick="goPage('salarios',this)"><div class="sb-ic">&#128176;</div><span class="sb-lbl">Cargos &amp; Salarios</span></div>
+    <div class="sb-item" id="nav-desempenho" onclick="goPage('desempenho',this)"><div class="sb-ic">&#127919;</div><span class="sb-lbl">Desempenho</span></div>
+    <div class="sb-sec">Financeiro</div>
+    <div class="sb-item" id="nav-orcamento" onclick="goPage('orcamento',this)"><div class="sb-ic">&#128203;</div><span class="sb-lbl">Orcamento OPEX/CAPEX</span><span class="sb-bdg">3</span></div>
+    <div class="sb-sec">Estrategia</div>
+    <div class="sb-item" id="nav-benchmarks" onclick="goPage('benchmarks',this)"><div class="sb-ic">&#127942;</div><span class="sb-lbl">Benchmarks</span></div>
+    <div class="sb-item" id="nav-preditivo" onclick="goPage('preditivo',this)"><div class="sb-ic">&#128302;</div><span class="sb-lbl">Preditivo</span></div>
+    <div class="sb-item" id="nav-plano" onclick="goPage('plano',this)"><div class="sb-ic">&#9989;</div><span class="sb-lbl">Plano de Acao</span></div>
+  </div>
+  <div class="sb-ai" onclick="openAI()"><span class="sb-ai-ic">&#129302;</span><span class="sb-ai-tx">Assistente IA Offline</span></div>
+  <div class="sb-tog" onclick="toggleSb()"><span class="sb-tog-ic">&#8249;</span><span class="sb-tog-tx">Recolher menu</span></div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="tb-title">Prime D'Or Analytics<span class="tb-sub">Prime D'Or &middot; Jun/2025</span></div>
+    <span class="theme-icon" id="theme-icon" onclick="toggleTheme()" title="Alternar tema">&#9728;</span>
+    <button class="theme-btn" onclick="toggleTheme()" title="Alternar tema Dark/Light"></button>
+    <button class="btn btn-out" id="fb-btn" onclick="toggleFB()" style="display:none">&#9881; Filtros</button>
+    <button class="btn btn-do" id="pdf-btn" onclick="openPdf()" style="display:none">&#128196; Relatorio</button>
+  </div>
+  <div class="fb" id="filterbar">
+    <div class="fb-in">
+      <span class="fb-lbl">Area</span>
+      <select id="f-area"><option value="">Todas</option><option>Assistencial</option><option>Administrativo</option><option>Gestao</option><option>Gente &amp; Gestao</option></select>
+      <span class="fb-lbl">Nivel</span>
+      <select id="f-nivel"><option value="">Todos</option><option>Junior</option><option>Pleno</option><option>Senior</option><option>Especialista</option><option>Tecnico</option><option>Operacional</option><option>Gestao</option></select>
+      <span class="fb-lbl">Mes</span>
+      <select id="f-mes"><option value="">Todos</option><option>Jan</option><option>Fev</option><option>Mar</option><option>Abr</option><option>Mai</option><option>Jun</option><option>Jul</option><option>Ago</option><option>Set</option><option>Out</option><option>Nov</option><option>Dez</option></select>
+      <span class="fb-cl" onclick="clearFB()">X Limpar</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- CAPA -->
+    <div id="pg-cover" class="pg pg-cover on">
+      <div class="cv">
+
+        <!-- HERO -->
+        <div class="cv-hero">
+          <div class="cv-hero-l">
+            <div class="cv-eyebrow">Dashboard Estrategico de RH &middot; Jun/2025</div>
+            <div class="cv-h1">Prime D'Or &nbsp;<span>|</span>&nbsp; Inteligencia de Pessoas</div>
+            <div class="cv-sub">&#127973; Unidade Hospitalar Rio de Janeiro &nbsp;&middot;&nbsp; Benchmark ANAHP &nbsp;&middot;&nbsp; IA Offline</div>
+          </div>
+          <div class="cv-hero-r">
+            <button class="cv-cta" onclick="enterDash()">Acessar Dashboard &nbsp;&#8594;</button>
+          </div>
+        </div>
+
+        <!-- KPI STRIP -->
+        <div class="cv-kstrip">
+          <div class="cv-ki"><div class="cv-kiv">512</div><div class="cv-kil">Headcount</div><div class="cv-kis">Colaboradores ativos</div></div>
+          <div class="cv-ki warn"><div class="cv-kiv">18.4%</div><div class="cv-kil">Turnover Anual</div><div class="cv-kis">ANAHP: 22-25%</div></div>
+          <div class="cv-ki ok"><div class="cv-kiv">+42</div><div class="cv-kil">eNPS</div><div class="cv-kis">Benchmark +30</div></div>
+          <div class="cv-ki warn"><div class="cv-kiv">4.8%</div><div class="cv-kil">Absenteismo</div><div class="cv-kis">Meta &lt; 5%</div></div>
+          <div class="cv-ki gold"><div class="cv-kiv">R$4,89M</div><div class="cv-kil">Folha / Mes</div><div class="cv-kis">CLT + encargos</div></div>
+          <div class="cv-ki"><div class="cv-kiv">R$799K</div><div class="cv-kil">Custo Turnover</div><div class="cv-kis">Ano | R$8,5K/desl.</div></div>
+          <div class="cv-ki"><div class="cv-kiv">14</div><div class="cv-kil">Vagas Abertas</div><div class="cv-kis">Em processo R&amp;S</div></div>
+          <div class="cv-ki ok"><div class="cv-kiv">62%</div><div class="cv-kil">Promocoes Int.</div><div class="cv-kis">Das vagas seniors</div></div>
+        </div>
+
+        <!-- BODY -->
+        <div class="cv-body">
+
+          <!-- LEFT -->
+          <div class="cv-left">
+            <div class="cv-desc">
+              <div class="cv-desc-tit">O que voce vai encontrar</div>
+              <div class="cv-modules-list">
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#128260;</span><div class="cv-mod-info"><div class="cv-mod-name">Turnover &amp; Movimentacao</div><div class="cv-mod-desc">Admissoes, desligamentos, absenteismo e ranking de cargos criticos</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#128176;</span><div class="cv-mod-info"><div class="cv-mod-name">Cargos &amp; Salarios</div><div class="cv-mod-desc">Pesquisa de mercado: D'Or vs Sirio, Hapvida, Fleury — gap vs P50/P75</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#127919;</span><div class="cv-mod-info"><div class="cv-mod-name">Desempenho &amp; Clima</div><div class="cv-mod-desc">Matriz 9-Box, eNPS trimestral, radar de clima e horas de T&amp;D</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#128203;</span><div class="cv-mod-info"><div class="cv-mod-name">Orcamento OPEX/CAPEX</div><div class="cv-mod-desc">Budget vs realizado por linha, alertas de desvio e projetos de investimento</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#127942;</span><div class="cv-mod-info"><div class="cv-mod-name">Benchmarks de Mercado</div><div class="cv-mod-desc">Turnover, eNPS, absenteismo e T&amp;D vs 7 players do setor hospitalar</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#128302;</span><div class="cv-mod-info"><div class="cv-mod-name">Analise Preditiva</div><div class="cv-mod-desc">4 cenarios com planos de acao e simulador de impacto financeiro</div></div></div>
+                <div class="cv-mod-item"><span class="cv-mod-ic">&#9989;</span><div class="cv-mod-info"><div class="cv-mod-name">Plano de Acao</div><div class="cv-mod-desc">Kanban 30/90/180 dias, framework 5W2H e Matriz RACI completa</div></div></div>
+              </div>
+              <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)">
+                <div class="cv-desc-tit" style="margin-bottom:5px">&#128295; Stack Tecnica</div>
+                <div style="display:flex;flex-wrap:wrap;gap:3px">
+                  <span class="cv-stag">Python</span>
+                  <span class="cv-stag">Pandas</span>
+                  <span class="cv-stag">openpyxl</span>
+                  <span class="cv-stag">Chart.js 3.9</span>
+                  <span class="cv-stag">HTML/CSS</span>
+                  <span class="cv-stag">ES5</span>
+                  <span class="cv-stag">JSON</span>
+                  <span class="cv-stag">Git</span>
+                </div>
+                <div style="margin-top:6px;font-size:8px;color:rgba(255,255,255,.28);line-height:1.5">
+                  Dados tratados com <strong style="color:rgba(255,255,255,.5)">Python + Pandas</strong> a partir de fontes publicas (ANAHP, ESG, Robert Half). Engenharia de dados: modelagem de indicadores RH, calculo de benchmarks e projecoes preditivas. <strong style="color:rgba(255,255,255,.5)">Todos os dados sao ficticios</strong> para fins demonstrativos.
+                </div>
+                <div style="margin-top:6px;padding:5px 8px;background:rgba(198,162,124,.12);border-radius:5px;border-left:2px solid var(--do)">
+                  <div style="font-size:8px;color:var(--doc);font-weight:700">Designed &amp; Developed by</div>
+                  <div style="font-size:10px;color:#fff;font-weight:700;margin-top:1px">Jose Gustavo L. C. Silva</div>
+                  <div style="font-size:8px;color:rgba(255,255,255,.38)">Analista de Dados e Processos &middot; HRBP Analytics</div>
+                </div>
+              </div>
+            </div>
+            <div class="cv-alerts-wrap">
+              <div class="cv-sec">&#9888; Alertas &amp; Status</div>
+              <div class="cv-al w"><div class="cv-al-ic">!</div><div class="cv-al-b"><div class="cv-al-t">Horas Extras +7.1% acima do orcado</div><div class="cv-al-d">Gap de dimensionamento em picos. Revisar escala antes de julho.</div></div><div class="cv-al-v">+7.1%</div></div>
+              <div class="cv-al w"><div class="cv-al-ic">!</div><div class="cv-al-b"><div class="cv-al-t">Turnover Tec. Enfermagem: 28%</div><div class="cv-al-d">3x a media. Custo R$360K/ano. Plano de acao prioridade 1.</div></div><div class="cv-al-v">28%</div></div>
+              <div class="cv-al g"><div class="cv-al-ic">V</div><div class="cv-al-b"><div class="cv-al-t">eNPS +42 — acima do benchmark</div><div class="cv-al-d">ANAHP: +30. Gap de 9pp para Sirio-Libanes (+51).</div></div><div class="cv-al-v">+42</div></div>
+              <div class="cv-al g"><div class="cv-al-ic">V</div><div class="cv-al-b"><div class="cv-al-t">T&amp;D 32h/ano acima do Brasil</div><div class="cv-al-d">Benchmark Brasil: 24h. Correlaciona negativamente com turnover.</div></div><div class="cv-al-v">32h</div></div>
+            </div>
+          </div>
+
+          <!-- CENTER -->
+          <div class="cv-center">
+            <div class="cv-chart-top">
+              <div class="cv-chart-lbl">&#128200; Admissoes vs Desligamentos — 2024</div>
+              <div class="cv-chart-wrap"><canvas id="cvFluxoCapa"></canvas></div>
+            </div>
+            <div class="cv-chart-bot">
+              <div class="cv-donut-block">
+                <div class="cv-chart-lbl">Composicao do quadro</div>
+                <div class="cv-donut-wrap"><canvas id="cvAreaCapa"></canvas></div>
+              </div>
+              <div class="cv-donut-block">
+                <div class="cv-chart-lbl">Motivos de saida</div>
+                <div class="cv-donut-wrap"><canvas id="cvMotivosCapa"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="cv-right">
+            <div class="cv-sec" style="padding:12px 14px 6px;flex-shrink:0">&#9654; Acesso Rapido</div>
+            <div class="cv-nav-wrap">
+              <div class="cv-nav" onclick="enterDash('turnover')"><span class="cv-nav-ic">&#128260;</span><span>Turnover</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('salarios')"><span class="cv-nav-ic">&#128176;</span><span>Cargos &amp; Salarios</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('desempenho')"><span class="cv-nav-ic">&#127919;</span><span>Desempenho &amp; Clima</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('orcamento')"><span class="cv-nav-ic">&#128203;</span><span>Orcamento OPEX/CAPEX</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('benchmarks')"><span class="cv-nav-ic">&#127942;</span><span>Benchmarks Mercado</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('preditivo')"><span class="cv-nav-ic">&#128302;</span><span>Analise Preditiva</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="enterDash('plano')"><span class="cv-nav-ic">&#9989;</span><span>Plano de Acao</span><span class="cv-nav-arr">&#8594;</span></div>
+              <div class="cv-nav" onclick="openAI()"><span class="cv-nav-ic">&#129302;</span><span>Assistente IA Offline</span><span class="cv-nav-arr">&#8594;</span></div>
+            </div>
+            <button class="cv-cta2" onclick="openPdf()">&#128196; Relatorio Diretoria</button>
+          </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="cv-ft">
+          <span>&#169; 2025 Prime D'Or &middot; HRBP Unidade RJ</span>
+          <span style="color:rgba(255,255,255,.35)">&#9888; Dados ficticios para fins demonstrativos &middot; Fontes: ANAHP, ESG 2023, Robert Half 2024</span>
+          <span>Designed by <strong style="color:var(--doc)">Jose Gustavo L. C. Silva</strong></span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TURNOVER -->
+    <div id="pg-turnover" class="pg">
+      <div class="ph"><div class="ph-t">Turnover &amp; Movimentacao</div><span class="bdg r">2024</span></div>
+      <div class="kg" id="kg-turn"></div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Turnover Mensal vs Benchmark</div><div class="ci">Picos em <strong>Marco e Julho</strong> — janelas criticas para acoes preventivas do HRBP.</div><canvas id="cvTurnMes" height="190"></canvas></div>
+        <div class="cc"><div class="ct">Absenteismo Mensal (%)</div><div class="ci">Barras <strong>vermelhas</strong> acima de 5%. Junho, Julho e Dezembro exigem cobertura preventiva de escala.</div><canvas id="cvAbst" height="190"></canvas></div>
+      </div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Turnover por Cargo — Ranking</div><div class="ci">Tecnico Enfermagem: <strong>28%</strong>. Custo medio por desligamento: R$8.500. Impacto anual: ~R$360K.</div><canvas id="cvTurnCargo" height="220"></canvas></div>
+        <div class="cc"><div class="ct">Admissoes vs Desligamentos</div><div class="ci">Meses com saldo negativo (<strong>Mar, Jul, Out</strong>) geram sobrecarga operacional e risco de qualidade.</div><canvas id="cvFluxo" height="220"></canvas></div>
+      </div>
+    </div>
+
+    <!-- SALARIOS -->
+    <div id="pg-salarios" class="pg">
+      <div class="ph"><div class="ph-t">Cargos &amp; Salarios — Pesquisa de Mercado</div><span class="bdg d">Robert Half + MR Survey 2024</span></div>
+      <div class="note">Verde = D'Or paga acima do P50 &nbsp;|&nbsp; Vermelho = abaixo do P50 — oportunidade de revisao. Fonte: D'Or ESG 2023 + Robert Half + Michael Robert.</div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Gap D'Or vs P50 por Cargo (R$)</div><div class="ci">Auxiliar Enfermagem e Assistente Social tem maior defasagem relativa ao mercado — maior risco de turnover.</div><canvas id="cvGap" height="340"></canvas></div>
+        <div class="cc"><div class="ct">Custo Total Mensal por Cargo (Headcount x Salario+Enc)</div><div class="ci">Tecnicos (184 HC) = <strong>maior impacto</strong> orcamentario — R$1,1M/mes. Qualquer revisao aqui tem impacto imediato.</div><canvas id="cvCusto" height="340"></canvas></div>
+      </div>
+      <div class="tw"><table id="tbl-sal"></table></div>
+    </div>
+
+    <!-- DESEMPENHO -->
+    <div id="pg-desempenho" class="pg">
+      <div class="ph"><div class="ph-t">Desempenho &amp; Clima</div><span class="bdg g">Ciclo 2024</span></div>
+      <div class="kg" id="kg-desemp"></div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Matriz 9-Box — Distribuicao do Quadro</div><div class="ci"><strong>38%</strong> em alto potencial. <strong>12%</strong> em zona de risco. Os 23% Comprometidos sao a maior oportunidade via PDI acelerado.</div><canvas id="cv9box" height="220"></canvas></div>
+        <div class="cc"><div class="ct">Clima por Pilar vs Benchmark ANAHP</div><div class="ci"><strong>Remuneracao (58)</strong> e <strong>Carreira (62)</strong> — pilares criticos, refletidos no Glassdoor da unidade.</div><canvas id="cvClima" height="220"></canvas></div>
+      </div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Horas de T&amp;D por Area</div><div class="ci">Assistencial lidera com <strong>48h/ano</strong> — adequado para alta complexidade. Lideranca: 40h, acima do benchmark.</div><canvas id="cvTD" height="190"></canvas></div>
+        <div class="cc"><div class="ct">Evolucao eNPS Trimestral</div><div class="ci">Crescimento consistente: <strong>+35 a +42</strong> em 4 trimestres. Correlacao positiva com programa de lideranca Q1.</div><canvas id="cvEnps" height="190"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ORCAMENTO OPEX + CAPEX -->
+    <div id="pg-orcamento" class="pg">
+      <div class="ph">
+        <div class="ph-t">Orcamento — OPEX &amp; CAPEX de RH</div>
+        <div class="ph-r"><span class="bdg">Budget vs Realizado 2024</span></div>
+      </div>
+      <div class="fin-tabs">
+        <div class="fin-tab on" id="tab-opex" onclick="showFin('opex',this)">OPEX — Custos Operacionais</div>
+        <div class="fin-tab" id="tab-capex" onclick="showFin('capex',this)">CAPEX — Investimentos</div>
+      </div>
+      <div class="fin-view on" id="fin-opex">
+        <div class="kg" id="kg-orc"></div>
+        <div class="cg">
+          <div class="cc"><div class="ct">Composicao OPEX por Categoria</div><div class="ci">Folha + beneficios = <strong>91%</strong> do OPEX. Custo fixo elevado — HE e T&amp;D sao os focos de controle variavel.</div><canvas id="cvOrcPie" height="220"></canvas></div>
+          <div class="cc"><div class="ct">Variacao Budget vs Realizado por Linha</div><div class="ci"><strong>HE +7.1%</strong> e <strong>Eventos +8.1%</strong> em alerta. Acoes de controle necessarias no proximo ciclo orcamentario.</div><canvas id="cvVar" height="220"></canvas></div>
+        </div>
+        <div class="tw"><table id="tbl-orc"></table></div>
+      </div>
+      <div class="fin-view" id="fin-capex">
+        <div class="kg" id="kg-capex"></div>
+        <div class="cg">
+          <div class="cc"><div class="ct">CAPEX por Categoria — Alocacao</div><div class="ci">TI concentra <strong>64%</strong> do CAPEX de RH — dominado por upgrade do HRIS e LMS. Infraestrutura e o segundo maior bloco.</div><canvas id="cvCapexPie" height="220"></canvas></div>
+          <div class="cc"><div class="ct">Execucao do CAPEX — Realizado vs Planejado (R$)</div><div class="ci">LMS e ATS <strong>100% executados</strong>. Sala de Treinamento em atraso (82%). Mobiliario ainda nao iniciado (2026).</div><canvas id="cvCapexBar" height="220"></canvas></div>
+        </div>
+        <div class="tw"><table id="tbl-capex"></table></div>
+      </div>
+    </div>
+
+    <!-- BENCHMARKS -->
+    <div id="pg-benchmarks" class="pg">
+      <div class="ph"><div class="ph-t">Benchmarks de Mercado</div><span class="bdg d">Players 2024</span></div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Turnover Comparativo (%)</div><div class="ci">D'Or (18%) melhor que Hapvida (26%) e Dasa (24%). Gap de 6pp para Sirio-Libanes (12%) — referencia cultural.</div><canvas id="cvBT" height="230"></canvas></div>
+        <div class="cc"><div class="ct">eNPS Comparativo</div><div class="ci">D'Or lidera entre os hospitalares de grande escala. Sirio (+51) e o benchmark de satisfacao a perseguir.</div><canvas id="cvBE" height="230"></canvas></div>
+      </div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Absenteismo (%)</div><div class="ci">D'Or (4.8%) abaixo da ANAHP (5.3%). Sirio (4.2%) mostra que ainda ha espaco para melhora.</div><canvas id="cvBA" height="200"></canvas></div>
+        <div class="cc"><div class="ct">T&amp;D Horas / Colaborador</div><div class="ci">D'Or (32h) acima do setor (24h). Investimento em T&amp;D correlaciona negativamente com turnover nos players.</div><canvas id="cvBTD" height="200"></canvas></div>
+      </div>
+      <div class="tw"><table id="tbl-play"></table></div>
+    </div>
+
+    <!-- PREDITIVO -->
+    <div id="pg-preditivo" class="pg">
+      <div class="ph"><div class="ph-t">Analise Preditiva &amp; Planos de Acao</div><span class="bdg r">Horizonte 12 meses</span></div>
+      <div class="note">Modelos baseados em regressao historica dos indicadores da unidade + variaveis macroeconomicas do setor hospitalar. Revisao trimestral recomendada.</div>
+      <div class="cg">
+        <div class="cc"><div class="ct">Projecao Turnover por Cenario</div><div class="ci">Base (55%): 18.5% — estavel. M&amp;A: 28% por choque cultural — risco mais critico a monitorar.</div><canvas id="cvCenT" height="190"></canvas></div>
+        <div class="cc"><div class="ct">Projecao Headcount por Cenario</div><div class="ci">Otimista: +33 FTEs. Pessimista: -40 FTEs. M&amp;A: +208 FTEs — impacto dramatico em R&amp;S e onboarding.</div><canvas id="cvCenH" height="190"></canvas></div>
+      </div>
+      <div class="sg" id="sg-cards"></div>
+      <div class="cc">
+        <div class="ct">Simulador de Impacto — Reducao de Turnover</div>
+        <div class="ci">Ajuste o slider para calcular o impacto financeiro de reduzir o turnover atual.</div>
+        <div style="display:flex;align-items:center;gap:12px;margin:9px 0">
+          <span style="font-size:11px;font-weight:700;color:var(--aze);white-space:nowrap">Turnover: <span id="sl-val">18.4</span>%</span>
+          <input type="range" id="sl-turn" min="8" max="30" step="0.1" value="18.4" oninput="simUpdate(this.value)" style="flex:1">
+          <span style="font-size:10px;color:var(--ts);white-space:nowrap">Meta Sirio: 12%</span>
+        </div>
+        <div id="sim-res" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:7px"></div>
+      </div>
+    </div>
+
+    <!-- PLANO DE ACAO -->
+    <div id="pg-plano" class="pg">
+      <div class="ph"><div class="ph-t">Plano de Acao &amp; Frameworks Estrategicos</div><span class="bdg pk">Q3/Q4 2025</span></div>
+      <div class="pa-tabs">
+        <div class="pa-tab on" id="ptab-kanban" onclick="showPA('kanban',this)">&#128203; Plano de Acao</div>
+        <div class="pa-tab" id="ptab-5w2h" onclick="showPA('5w2h',this)">&#128270; 5W2H — Retencao</div>
+        <div class="pa-tab" id="ptab-raci" onclick="showPA('raci',this)">&#128101; Matriz RACI</div>
+      </div>
+
+      <!-- KANBAN -->
+      <div class="pa-view on" id="pv-kanban">
+        <div class="kanban">
+          <div class="kan-col r">
+            <div class="kan-tit">&#128308; Curto Prazo — 30 dias</div>
+            <div class="kan-card r">
+              <div class="kan-card-tit">Programa Retencao Tec. Enfermagem</div>
+              <div class="kan-card-det">Bonus de permanencia de 6 meses + trilha de carreira em Y. Reducao estimada de 8pp no turnover desse grupo.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-r">HRBP</span><span class="kan-tag kan-tag-r">Alta Prior.</span><span class="kan-tag kan-tag-g">-R$272K/ano</span></div>
+            </div>
+            <div class="kan-card r">
+              <div class="kan-card-tit">Revisao Escala HE — Julho</div>
+              <div class="kan-card-det">Horas extras 7.1% acima do orcado. Mapear meses criticos (Jul, Dez) e implementar banco de horas preventivo.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-r">Operacoes</span><span class="kan-tag kan-tag-r">Alta Prior.</span></div>
+            </div>
+            <div class="kan-card r">
+              <div class="kan-card-tit">Pesquisa de Clima — Aplicacao</div>
+              <div class="kan-card-det">Garantir cobertura acima de 85% antes do corte semestral. Foco em Remuneracao e Carreira (pilares criticos).</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-r">HRBP</span><span class="kan-tag kan-tag-y">Media Prior.</span></div>
+            </div>
+          </div>
+          <div class="kan-col y">
+            <div class="kan-tit">&#128993; Medio Prazo — 90 dias</div>
+            <div class="kan-card y">
+              <div class="kan-card-tit">Revisao Salarial ao P50 de Mercado</div>
+              <div class="kan-card-det">Cargos com gap negativo vs P50: Auxiliar Enfermagem, Assistente Social, Analista RH Junior. Estimativa de ajuste: R$280K/ano em folha.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-y">Diretoria</span><span class="kan-tag kan-tag-r">Alta Prior.</span></div>
+            </div>
+            <div class="kan-card y">
+              <div class="kan-card-tit">Plano de Acao de Clima — Por Pilar</div>
+              <div class="kan-card-det">Estruturar respostas especificas para Remuneracao (58) e Carreira (62). Cada gestor deve ter plano de 90 dias para sua equipe.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-y">Liderancas</span><span class="kan-tag kan-tag-y">Media Prior.</span></div>
+            </div>
+            <div class="kan-card y">
+              <div class="kan-card-tit">Expansao EAP — Saude Mental</div>
+              <div class="kan-card-det">Ampliar acesso ao Employee Assistance Program com foco em areas assistenciais (maior absenteismo). Meta: reducao de 0.5pp no absenteismo.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-y">Saude Ocup.</span><span class="kan-tag kan-tag-y">Media Prior.</span></div>
+            </div>
+          </div>
+          <div class="kan-col g">
+            <div class="kan-tit">&#128994; Longo Prazo — 180 dias</div>
+            <div class="kan-card g">
+              <div class="kan-card-tit">Programa de Sucessao — 9-Box</div>
+              <div class="kan-card-det">38% do quadro em alto potencial. Estruturar plano de sucessao formal para posicoes criticas com PDI acelerado para Stars.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-g">HRBP + Gestores</span><span class="kan-tag kan-tag-y">Media Prior.</span></div>
+            </div>
+            <div class="kan-card g">
+              <div class="kan-card-tit">Academy RH — Trilhas Certificadas</div>
+              <div class="kan-card-det">Criar Academia Interna com trilhas por funcao. Meta: elevar media T&D de 32h para 40h/ano, alinhando ao benchmark do Sirio-Libanes.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-g">T&D</span><span class="kan-tag kan-tag-g">Baixa Prior.</span></div>
+            </div>
+            <div class="kan-card g">
+              <div class="kan-card-tit">Meta Promocoes Internas 70%</div>
+              <div class="kan-card-det">Elevar taxa de promocoes internas de 62% para 70% das vagas seniors. Reduz custo de recrutamento externo e fortalece cultura de crescimento.</div>
+              <div class="kan-card-meta"><span class="kan-tag kan-tag-g">HRBP</span><span class="kan-tag kan-tag-g">Baixa Prior.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5W2H -->
+      <div class="pa-view" id="pv-5w2h">
+        <div class="note">Framework 5W2H aplicado ao principal problema da unidade: <strong>alta rotatividade de Tecnicos de Enfermagem (28%)</strong> — custo anual estimado de R$360K.</div>
+        <div class="w2h-grid">
+          <div class="w2h-hdr"><span>WHAT?</span><small>O que fazer?</small></div>
+          <div class="w2h-body">Implementar Programa Estruturado de Retencao de Tecnicos de Enfermagem, com tres pilares: (1) Bonus de Permanencia, (2) Trilha de Carreira em Y — tecnica e gerencial, e (3) Reconhecimento por Desempenho.</div>
+          <div class="w2h-hdr"><span>WHY?</span><small>Por que fazer?</small></div>
+          <div class="w2h-body">Turnover de 28% no grupo gera custo anual de ~R$360K (42 desligamentos x R$8.500). Impacta qualidade assistencial, sobrecarga da equipe remanescente, risco de eventos adversos e absenteismo em cascata. Benchmark ANAHP: 18-22%.</div>
+          <div class="w2h-hdr"><span>WHO?</span><small>Quem e responsavel?</small></div>
+          <div class="w2h-body">Responsavel: HRBP Senior da Unidade. Aprovador: Gerente de Unidade. Envolvidos: Coordenadores de Enfermagem, DP (folha e beneficios), Diretoria de Operacoes. Execucao: Area de T&D para trilha de carreira.</div>
+          <div class="w2h-hdr"><span>WHERE?</span><small>Onde sera feito?</small></div>
+          <div class="w2h-body">Unidade Hospitalar Rio de Janeiro — todos os turnos (manha, tarde, noite). Foco inicial nos setores com maior rotatividade: UTI (34%), Pronto-Socorro (30%) e Clinica Medica (26%). Expansao para demais setores no 2o semestre.</div>
+          <div class="w2h-hdr"><span>WHEN?</span><small>Quando sera feito?</small></div>
+          <div class="w2h-body">Inicio: 15/07/2025. Bonus de permanencia: liberado no 1o mes. Trilha de carreira: estruturacao em 60 dias, 1a turma em Set/2025. Reconhecimento trimestral: Out/2025. Avaliacao de resultados: Jan/2026 (6 meses).</div>
+          <div class="w2h-hdr"><span>HOW?</span><small>Como sera feito?</small></div>
+          <div class="w2h-body">Bonus de permanencia: R$800/mes por 6 meses (condicional a nota de desempenho maior ou igual a 3). Trilha Y: mapeamento de competencias, modulos mensais (4h), certificacao interna. Reconhecimento: ranking mensal por equipe, premiacao semestral com diploma e bonus de R$500.</div>
+          <div class="w2h-hdr"><span>HOW MUCH?</span><small>Quanto vai custar?</small></div>
+          <div class="w2h-body">Investimento total: ~R$148.800/ano. Detalhamento: Bonus permanencia (60 tec. x R$800 x 6 meses = R$115.200) + Estruturacao trilha (R$18.000) + Premiacao trimestral (R$15.600). ROI esperado: R$211.200 de economia em custo de turnover (reducao de 50% dos desligamentos evitaveis). Payback: 8 meses.</div>
+        </div>
+      </div>
+
+      <!-- RACI -->
+      <div class="pa-view" id="pv-raci">
+        <div class="note">
+          <strong>Legenda RACI:</strong>
+          <span class="r-R">R</span> Responsavel — executa &nbsp;|&nbsp;
+          <span class="r-A">A</span> Aprovador — autoriza &nbsp;|&nbsp;
+          <span class="r-C">C</span> Consultado — contribui &nbsp;|&nbsp;
+          <span class="r-I">I</span> Informado — recebe atualizacoes
+        </div>
+        <div class="raci-wrap">
+          <table class="raci-table">
+            <thead>
+              <tr>
+                <th>Atividade / Iniciativa</th>
+                <th>HRBP Senior</th>
+                <th>Gerente Unidade</th>
+                <th>Coord. Enfermagem</th>
+                <th>Diretoria TI</th>
+                <th>DP / Folha</th>
+                <th>T&amp;D</th>
+                <th>Saude Ocup.</th>
+                <th>Diretoria RH</th>
+              </tr>
+            </thead>
+            <tbody id="raci-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- AI DRAWER -->
+<div class="ai-ov" id="ai-ov" onclick="closeAI(event)">
+  <div class="ai-dr">
+    <div class="ai-hd">
+      <span style="font-size:20px">&#129302;</span>
+      <div class="ai-hd-tx" style="margin-left:8px"><h3>Assistente RH</h3><p>Base de conhecimento local</p></div>
+      <span class="ai-off">OFFLINE</span>
+      <button class="ai-cls" onclick="closeAI()">X</button>
+    </div>
+    <div class="ai-msgs" id="ai-msgs">
+      <div class="ai-msg b">Ola! Sou o <strong>Assistente RH Prime D'Or</strong>, 100% offline. Pergunte sobre turnover, salarios, orcamento, clima, plano de acao ou qualquer KPI da unidade.</div>
+    </div>
+    <div class="ai-q">
+      <span class="ai-qb" onclick="askAI('turnover')">Turnover</span>
+      <span class="ai-qb" onclick="askAI('orcamento')">Orcamento</span>
+      <span class="ai-qb" onclick="askAI('salarios')">Salarios</span>
+      <span class="ai-qb" onclick="askAI('cenarios')">Cenarios</span>
+      <span class="ai-qb" onclick="askAI('clima')">Clima</span>
+      <span class="ai-qb" onclick="askAI('plano de acao')">Plano Acao</span>
+    </div>
+    <div class="ai-inp-row">
+      <input class="ai-inp" id="ai-inp" placeholder="Digite sua pergunta..." onkeydown="if(event.key==='Enter')sendAI()">
+      <button class="btn btn-az" onclick="sendAI()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF MODAL -->
+<div class="pm" id="pm">
+  <div class="pm-wrap">
+    <div class="pm-ctrl">
+      <button class="btn btn-do" onclick="window.print()">&#128424; Exportar PDF</button>
+      <button class="btn btn-out" onclick="closePdf()">X Fechar</button>
+      <span class="pm-hint">Ctrl+P &rarr; Salvar como PDF &middot; Retrato &middot; 2 paginas</span>
+    </div>
+    <div id="pm-content"></div>
+  </div>
+</div>
+
+<script>
+/* THEME */
+function toggleTheme(){
+  var el=document.documentElement;
+  var now=el.getAttribute('data-theme');
+  var next=now==='light'?'dark':'light';
+  el.setAttribute('data-theme',next);
+  document.getElementById('theme-icon').innerHTML=next==='dark'?'&#9790;':'&#9728;';
+  var isCover=document.getElementById('pg-cover').classList.contains('on');
+  if(isCover){
+    setTimeout(function(){buildCover();},50);
+  } else {
+    setTimeout(function(){rebuildCharts();},350);
+  }
+}
+
+/* NAVIGATION */
+var rendered={};
+var fbOpen=false;
+var PAGE_TITLES={cover:'RH Analytics',turnover:'Turnover & Movimentacao',salarios:'Cargos & Salarios',desempenho:'Desempenho & Clima',orcamento:'Orcamento OPEX/CAPEX',benchmarks:'Benchmarks de Mercado',preditivo:'Analise Preditiva',plano:'Plano de Acao'};
+
+function toggleSb(){document.getElementById('sb').classList.toggle('c');}
+function goPage(id,el){
+  var pgs=document.querySelectorAll('.pg');
+  for(var i=0;i<pgs.length;i++){pgs[i].classList.remove('on');}
+  var items=document.querySelectorAll('.sb-item');
+  for(var i=0;i<items.length;i++){items[i].classList.remove('on');}
+  document.getElementById('pg-'+id).classList.add('on');
+  if(el){el.classList.add('on');}
+  var isCover=(id==='cover');
+  document.getElementById('sb').classList.toggle('c',isCover);
+  document.getElementById('tb-title').innerHTML=PAGE_TITLES[id]+'<span class="tb-sub">'+D.meta.unidade+' &middot; '+D.meta.data_base+'</span>';
+  document.getElementById('fb-btn').style.display=isCover?'none':'';
+  document.getElementById('pdf-btn').style.display=isCover?'none':'';
+  if(isCover&&fbOpen){toggleFB();}
+  if(!rendered[id]){rendered[id]=true;setTimeout(function(){buildPage(id);},50);}
+}
+function enterDash(t){var id=t||'turnover';goPage(id,document.getElementById('nav-'+id));}
+function buildPage(id){
+  if(id==='cover'){buildCover();}
+  else if(id==='turnover'){buildTurnover();}
+  else if(id==='salarios'){buildSalarios();}
+  else if(id==='desempenho'){buildDesempenho();}
+  else if(id==='orcamento'){buildOrcamento();}
+  else if(id==='benchmarks'){buildBenchmarks();}
+  else if(id==='preditivo'){buildPreditivo();}
+  else if(id==='plano'){buildPlano();}
+}
+function rebuildCharts(){
+  var keys=Object.keys(rendered);
+  rendered={};
+  for(var i=0;i<keys.length;i++){rendered[keys[i]]=true;}
+  var active=document.querySelector('.pg.on');
+  if(active){
+    var id=active.id.replace('pg-','');
+    rendered[id]=false;
+    buildPage(id);
+  }
+}
+function toggleFB(){fbOpen=!fbOpen;document.getElementById('filterbar').classList.toggle('open',fbOpen);document.getElementById('fb-btn').innerHTML=fbOpen?'X Fechar':'&#9881; Filtros';}
+function clearFB(){document.getElementById('f-area').value='';document.getElementById('f-nivel').value='';document.getElementById('f-mes').value='';}
+function showFin(id,el){
+  document.querySelectorAll('.fin-view').forEach(function(v){v.classList.remove('on');});
+  document.querySelectorAll('.fin-tab').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('fin-'+id).classList.add('on');
+  el.classList.add('on');
+}
+function showPA(id,el){
+  document.querySelectorAll('.pa-view').forEach(function(v){v.classList.remove('on');});
+  document.querySelectorAll('.pa-tab').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('pv-'+id).classList.add('on');
+  el.classList.add('on');
+}
+
+/* AI */
+var KB=[
+  {p:/turnover|rotatividade/,r:function(){return 'Turnover anual: <strong>'+D.k.turn+'%</strong>  --  abaixo do setor ANAHP 22%. Tecnico Enfermagem: 28%, 3x o administrativo. Acao: bonus permanencia + trilha carreira em Y. Custo anual do turnover: R$799K.';}},
+  {p:/absentei|ausencia|falta/,r:function(){return 'Absenteismo: <strong>'+D.k.abst+'%</strong>  --  meta menor que 5%. Picos em junho, julho e dezembro. Acao: programa preventivo de saude + revisao de escalas nos meses criticos.';}},
+  {p:/enps|satisfa|clima/,r:function(){return 'eNPS: <strong>+'+D.k.enps+'</strong>  --  acima do benchmark +30. Pilares criticos: Remuneracao 58 e Carreira 62. Acao: revisao salarial ao P50 + plano de carreira claro por funcao.';}},
+  {p:/salario|remunerac|comp/,r:function(){return 'Prime D&#39;Or posicionada no P50 para maioria dos cargos. Gap vs Sirio: ~18% nos assistenciais seniors. HRBP Senior: Prime D&#39;Or R$12.800 vs P75 R$14.800. Oportunidade na proxima revisao salarial.';}},
+  {p:/orcament|opex|custo/,r:function(){return 'OPEX RH anual: ~R$58,5M. Alertas: Horas Extras +7.1%, T&D +6.9%, Eventos +8.1%. Folha e beneficios = 91% do OPEX. CAPEX: R$1.112M planejado, 52% executado.';}},
+  {p:/capex|investimento/,r:function(){return 'CAPEX de RH 2025: R$1.112M planejado. LMS e-Learning (R$160K) e ATS de Recrutamento (R$72K) ja 100% executados. Sala de Treinamento em atraso (82%). Mobiliario previsto para Jan/2026.';}},
+  {p:/cenario|prediti|previsao/,r:function(){return 'Cenario mais provavel 55%: crescimento moderado, pressao 6% a.a. em folha, turnover 18.5%. Risco M&A 15%: turnover pode atingir 28% por choque cultural  --  due diligence essencial.';}},
+  {p:/9.?box|desempen|perf/,r:function(){return '38% em alto potencial, 12% em zona de risco. Os 23% Comprometidos tem potencial latente  --  PDI acelerado pode converter em futuros lideres sem custo de contratacao externa.';}},
+  {p:/plano|acao|5w2h|raci/,r:function(){return 'Acesse a aba <strong>Plano de Acao</strong> para ver: (1) Kanban 30/90/180 dias com 9 iniciativas priorizadas, (2) Framework 5W2H completo para retencao de tecnicos, e (3) Matriz RACI com papeis e responsabilidades.';}},
+  {p:/concorr|mercado|player/,r:function(){return "D'Or: turnover 18% (melhor que Hapvida 26% e Dasa 24%). eNPS +42 supera ANAHP +30. Gap para Sirio: 6pp turnover e 9pp eNPS  --  referencia de cultura e excelencia.";}},
+  {p:/headcount|quadro|colabor/,r:function(){return 'Headcount: <strong>'+D.k.hc+'</strong>. Vagas abertas: '+D.k.vagas+'. Tempo medio contratacao: '+D.k.t_contrat+' dias. Composicao: 68% feminino. Crescimento 5% vs 2022.';}}
+];
+function aiRespond(q){
+  var m=null;for(var i=0;i<KB.length;i++){if(KB[i].p.test(q)){m=KB[i];break;}}
+  return m?m.r():'Dados: headcount '+D.k.hc+', turnover '+D.k.turn+'%, eNPS +'+D.k.enps+'. Tente: turnover, salario, orcamento, capex, cenario, clima, plano de acao.';
+}
+function openAI(){document.getElementById('ai-ov').classList.add('open');}
+function closeAI(e){if(!e||!e.target.closest('.ai-dr')){document.getElementById('ai-ov').classList.remove('open');}}
+function sendAI(){var v=document.getElementById('ai-inp').value.trim();if(v){askAI(v);document.getElementById('ai-inp').value='';}}
+function askAI(q){
+  var el=document.getElementById('ai-msgs');
+  el.innerHTML+='<div class="ai-msg u">'+q+'</div>';
+  setTimeout(function(){el.innerHTML+='<div class="ai-msg b">'+aiRespond(q)+'</div>';el.scrollTop=el.scrollHeight;},380);
+  el.scrollTop=el.scrollHeight;
+}
+
+/* -- CHART BUILDERS ------------------------------ */
+function buildCover(){
+  var mm=D.movimentacao;
+  /* bar chart */
+  mkC('cvFluxoCapa',{type:'bar',
+    data:{labels:mm.map(function(m){return m.mes;}),
+      datasets:[
+        {label:'Adm',data:mm.map(function(m){return m.adm;}),backgroundColor:'rgba(0,184,154,.8)'},
+        {label:'Desl',data:mm.map(function(m){return m.desl;}),backgroundColor:'rgba(227,28,121,.8)'}
+      ]},
+    options:{
+      maintainAspectRatio:false,
+      animation:{duration:500},
+      layout:{padding:0},
+      plugins:{
+        legend:{position:'bottom',labels:{color:'rgba(255,255,255,.5)',font:{size:8},boxWidth:8,padding:8}},
+        datalabels:{display:false}
+      },
+      scales:{
+        x:{ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxRotation:0},grid:{display:false},border:{display:false}},
+        y:{max:14,ticks:{color:'rgba(255,255,255,.4)',font:{size:8},stepSize:5},grid:{color:'rgba(255,255,255,.08)'},border:{display:false}}
+      }
+    }
+  });
+  /* donut — composicao */
+  mkC('cvAreaCapa',{type:'doughnut',
+    data:{labels:['Assist.','Admin','Gestao','RH'],
+      datasets:[{data:[72,15,7,6],backgroundColor:['#003DA5','#C6A27C','#009681','#71C5E8'],borderWidth:2,borderColor:'rgba(0,30,60,.6)'}]},
+    options:{
+      maintainAspectRatio:false,animation:{duration:500},
+      cutout:'62%',
+      plugins:{
+        legend:{position:'bottom',labels:{color:'rgba(255,255,255,.45)',font:{size:8},boxWidth:7,padding:4}},
+        datalabels:{color:'#fff',font:{weight:'bold',size:9},formatter:function(v){return v+'%';}}
+      }
+    }
+  });
+  /* donut — motivos */
+  mkC('cvMotivosCapa',{type:'doughnut',
+    data:{labels:['Pedido','Oport.','Demis.','Desemp.','Apos.','Outros'],
+      datasets:[{data:D.motivos.map(function(m){return m.p;}),backgroundColor:['#E31C79','#FA4616','#003DA5','#C6A27C','#009681','#A0AABF'],borderWidth:2,borderColor:'rgba(0,30,60,.6)'}]},
+    options:{
+      maintainAspectRatio:false,animation:{duration:500},
+      cutout:'62%',
+      plugins:{
+        legend:{position:'bottom',labels:{color:'rgba(255,255,255,.45)',font:{size:8},boxWidth:7,padding:4}},
+        datalabels:{color:'#fff',font:{weight:'bold',size:9},formatter:function(v){return v>5?v+'%':'';}}
+      }
+    }
+  });
+}
+
+function buildTurnover(){
+  var C=getC(),mm=D.movimentacao;
+  document.getElementById('kg-turn').innerHTML='<div class="kc r"><div class="kl">Turnover Anual</div><div class="kv">18.4%</div><div class="ks">ANAHP: 22% | Meta: &lt;18%</div><div class="kt kd">Abaixo da media</div></div><div class="kc r"><div class="kl">Turno. Voluntario</div><div class="kv">11.2%</div><div class="ks">60% das saidas</div></div><div class="kc"><div class="kl">Desligamentos/ano</div><div class="kv">94</div><div class="ks">~7.8/mes</div></div><div class="kc d"><div class="kl">Custo Turnover/ano</div><div class="kv">R$799K</div><div class="ks">~R$8.500/desl.</div></div><div class="kc r"><div class="kl">Absenteismo</div><div class="kv">4.8%</div><div class="ks">Meta: &lt;5%</div></div><div class="kc c"><div class="kl">Tempo Contratacao</div><div class="kv">22 dias</div><div class="ks">Meta: &lt;30 dias</div></div>';
+  mkC('cvTurnMes',{type:'line',data:{labels:mm.map(function(m){return m.mes;}),datasets:[{label:'Turnover%',data:mm.map(function(m){return m.turn;}),borderColor:C.pk,backgroundColor:C.pk+'22',fill:true,tension:.4},{label:'Bench 1.8%',data:[1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8],borderColor:C.ci,borderDash:[5,5],pointRadius:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{y:{min:.5,max:2.5,ticks:{callback:function(v){return v.toFixed(1)+'%';},color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick},grid:{color:C.grid}}}}});
+  mkC('cvAbst',{type:'bar',data:{labels:mm.map(function(m){return m.mes;}),datasets:[{data:mm.map(function(m){return m.abst;}),backgroundColor:mm.map(function(m){return m.abst>5?C.pk+'CC':C.az+'CC';})}]},options:{plugins:{legend:{display:false},datalabels:{display:false}},scales:{y:{min:2.5,max:7,ticks:{callback:function(v){return v+'%';},color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick},grid:{color:C.grid}}}}});
+  var cargos=[{c:'Tecnico Enfermagem',v:28},{c:'Auxiliar Enfermagem',v:22},{c:'Aux. Servicos Gerais',v:20},{c:'Enfermeiro Pleno',v:16},{c:'Assist. Administrativo',v:10},{c:'Gestao Intermediaria',v:7},{c:'Coordenacao',v:5}];
+  mkC('cvTurnCargo',{type:'bar',data:{labels:cargos.map(function(c){return c.c;}),datasets:[{data:cargos.map(function(c){return c.v;}),backgroundColor:[C.pk,C.la,C.la,C.do_,C.azc,C.az,C.ve]}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'%';}}},scales:{x:{max:35,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:10}}}}}});
+  mkC('cvFluxo',{type:'bar',data:{labels:mm.map(function(m){return m.mes;}),datasets:[{label:'Admissoes',data:mm.map(function(m){return m.adm;}),backgroundColor:C.ve+'CC'},{label:'Desligamentos',data:mm.map(function(m){return m.desl;}),backgroundColor:C.pk+'CC'}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{y:{max:14,ticks:{color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick}}}}});
+}
+
+function buildSalarios(){
+  var C=getC(),cs=D.cargos_salarios;
+  var gaps=cs.map(function(c){return c.salario_rededor-c.salario_mercado_p50;});
+  /* Full label  --  NO truncation */
+  var labels=cs.map(function(c){return c.cargo;});
+  mkC('cvGap',{type:'bar',data:{labels:labels,datasets:[{data:gaps,backgroundColor:gaps.map(function(g){return g>=0?C.ve+'CC':C.pk+'CC';})}]},options:{indexAxis:'y',layout:{padding:{right:80}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:8},formatter:function(v){return (v>=0?'+':'')+fR(v);}}},scales:{x:{ticks:{callback:function(v){return 'R$'+(v/1000).toFixed(0)+'K';},color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:9}}}}}});
+  var custos=cs.map(function(c){return Math.round(c.headcount*(c.salario_rededor*1.72+1500));});
+  mkC('cvCusto',{type:'bar',data:{labels:labels,datasets:[{data:custos,backgroundColor:C.az+'BB'}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:false}},scales:{x:{ticks:{callback:function(v){return 'R$'+(v/1000).toFixed(0)+'K';},color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:9}}}}}});
+  var rows='';
+  for(var i=0;i<cs.length;i++){
+    var c=cs[i];var g=c.salario_rededor-c.salario_mercado_p50;
+    var sc=g>=500?'tg':g>=-500?'tb':'tr';
+    var sl=g>=500?'Acima P50':g>=-500?'No P50':'Abaixo P50';
+    rows+='<tr><td><strong>'+c.cargo+'</strong></td><td>'+c.area+'</td><td>'+c.nivel+'</td><td style="text-align:center">'+c.headcount+'</td><td style="text-align:right">'+fR(c.salario_rededor)+'</td><td style="text-align:right">'+fR(c.salario_sirio)+'</td><td style="text-align:right">'+fR(c.salario_hapvida)+'</td><td style="text-align:right"><strong>'+fR(c.salario_mercado_p50)+'</strong></td><td style="text-align:right">'+fR(c.salario_mercado_p75)+'</td><td style="text-align:right">'+(g>=0?'+':'')+fR(g)+'</td><td><span class="tag '+sc+'">'+sl+'</span></td></tr>';
+  }
+  document.getElementById('tbl-sal').innerHTML='<thead><tr><th>Cargo</th><th>Area</th><th>Nivel</th><th>HC</th><th>Prime D&#39;Or R$</th><th>Sirio R$</th><th>Hapvida R$</th><th>P50 R$</th><th>P75 R$</th><th>Gap vs P50</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody>';
+}
+
+function buildDesempenho(){
+  var C=getC(),k=D.k;
+  document.getElementById('kg-desemp').innerHTML='<div class="kc g"><div class="kl">eNPS</div><div class="kv">+42</div><div class="ks">Benchmark: +30</div></div><div class="kc"><div class="kl">Cobertura Aval.</div><div class="kv">88%</div><div class="ks">Meta: &gt;85%</div></div><div class="kc d"><div class="kl">T&D Medio</div><div class="kv">32h</div><div class="ks">Brasil: 24h</div></div><div class="kc g"><div class="kl">Promocoes Int.</div><div class="kv">62%</div><div class="ks">Vagas seniors</div></div><div class="kc r"><div class="kl">9-Box Risco</div><div class="kv">12%</div><div class="ks">PIP urgente</div></div><div class="kc c"><div class="kl">9-Box Potencial</div><div class="kv">38%</div><div class="ks">Alto potencial</div></div>';
+  mkC('cv9box',{type:'bar',data:{labels:D.nineBox.map(function(n){return n.q;}),datasets:[{data:D.nineBox.map(function(n){return n.p;}),backgroundColor:[C.ve,C.ve,C.az,C.az,C.do_,C.do_,C.pk,C.pk,C.pk]}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'%';}}},scales:{x:{max:30,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:9}}}}}});
+  mkC('cvClima',{type:'radar',data:{labels:D.clima.map(function(c){return c.p;}),datasets:[{label:'Unidade RJ',data:D.clima.map(function(c){return c.u;}),borderColor:C.az,backgroundColor:C.azc+'44',pointBackgroundColor:C.az},{label:'Benchmark',data:D.clima.map(function(c){return c.b;}),borderColor:C.ci,backgroundColor:'transparent',borderDash:[4,4],pointBackgroundColor:C.ci}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{r:{min:40,max:100,ticks:{display:false},grid:{color:C.grid},pointLabels:{color:C.tx}}}}});
+  mkC('cvTD',{type:'bar',data:{labels:['Assistencial','Lideranca','Tecnico','Adm/Gestao','Hotelaria','Apoio'],datasets:[{data:[48,40,36,24,18,14],backgroundColor:[C.az,C.ve,C.azc,C.do_,C.ci,C.ci]}]},options:{plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'h';}}},scales:{y:{max:58,ticks:{color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick}}}}});
+  mkC('cvEnps',{type:'line',data:{labels:['Q1 2024','Q2 2024','Q3 2024','Q4 2024'],datasets:[{label:'eNPS',data:[35,38,40,42],borderColor:C.ve,backgroundColor:C.ve+'22',fill:true,tension:.4,pointRadius:5,pointBackgroundColor:C.ve},{label:'Benchmark +30',data:[30,30,30,30],borderColor:C.ci,borderDash:[5,5],pointRadius:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{y:{min:20,max:55,ticks:{color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick}}}}});
+}
+
+function buildOrcamento(){
+  var C=getC(),op=D.opex;
+  var totO=0,totR=0;for(var i=0;i<op.length;i++){totO+=op[i].oa;totR+=op[i].ra;}
+  var varT=((totR-totO)/totO*100).toFixed(1);
+  var al=0;for(var i=0;i<op.length;i++){if(op[i].st!=='ok')al++;}
+  document.getElementById('kg-orc').innerHTML='<div class="kc"><div class="kl">OPEX Orcado</div><div class="kv" style="font-size:15px">'+fR(totO)+'</div><div class="ks">Budget aprovado</div></div><div class="kc r"><div class="kl">OPEX Realizado</div><div class="kv" style="font-size:15px">'+fR(totR)+'</div></div><div class="kc '+(parseFloat(varT)>5?'r':'g')+'"><div class="kl">Variacao Total</div><div class="kv">'+(varT>0?'+':'')+varT+'%</div></div><div class="kc d"><div class="kl">Linhas em Alerta</div><div class="kv">'+al+'</div><div class="ks">de '+op.length+' linhas</div></div>';
+  var cats={};for(var i=0;i<op.length;i++){cats[op[i].cat]=(cats[op[i].cat]||0)+op[i].oa;}
+  var catK=Object.keys(cats),catV=catK.map(function(k){return cats[k];});
+  mkC('cvOrcPie',{type:'doughnut',data:{labels:catK,datasets:[{data:catV,backgroundColor:[C.az,C.do_,C.pk,C.ve,C.azc,C.la,C.ci],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts,font:{size:9}}},datalabels:{color:'#fff',font:{weight:'bold',size:9},formatter:function(v){var p=Math.round(v/totO*100);return p>4?p+'%':''}}}}});
+  mkC('cvVar',{type:'bar',data:{labels:op.map(function(o){return o.l;}),datasets:[{data:op.map(function(o){return o.vp;}),backgroundColor:op.map(function(o){return o.st==='ok'?C.ve+'CC':o.st==='alerta'?C.do_+'CC':C.pk+'CC';})}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return (v>0?'+':'')+v.toFixed(1)+'%';}}},scales:{x:{ticks:{callback:function(v){return (v>0?'+':'')+v+'%';},color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:9}}}}}});
+  var rows='';
+  for(var i=0;i<op.length;i++){var o=op[i];var d=o.ra-o.oa;var sc=o.st==='ok'?'tg':o.st==='alerta'?'ty':'tr';rows+='<tr><td><strong>'+o.l+'</strong></td><td>'+o.cat+'</td><td style="text-align:right">'+fR(o.om)+'</td><td style="text-align:right">'+fR(o.oa)+'</td><td style="text-align:right"><strong>'+fR(o.ra)+'</strong></td><td style="text-align:right">'+fR(d)+'</td><td style="text-align:center">'+(o.vp>0?'+':'')+o.vp.toFixed(1)+'%</td><td><span class="tag '+sc+'">'+(o.st==='ok'?'OK':'Alerta')+'</span></td></tr>';}
+  document.getElementById('tbl-orc').innerHTML='<thead><tr><th>Linha</th><th>Categoria</th><th>Orcado/mes</th><th>Orcado Anual</th><th>Realizado</th><th>Variacao R$</th><th>Var%</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody>';
+  /* CAPEX */
+  var cx=D.capex;var totCx=0,totCxE=0;for(var i=0;i<cx.length;i++){totCx+=cx[i].valor;totCxE+=cx[i].exec;}
+  var pctCx=Math.round(totCxE/totCx*100);
+  document.getElementById('kg-capex').innerHTML='<div class="kc"><div class="kl">CAPEX Total Planejado</div><div class="kv" style="font-size:15px">'+fR(totCx)+'</div></div><div class="kc g"><div class="kl">CAPEX Executado</div><div class="kv" style="font-size:15px">'+fR(totCxE)+'</div><div class="ks">'+pctCx+'% executado</div></div><div class="kc d"><div class="kl">A Executar</div><div class="kv" style="font-size:15px">'+fR(totCx-totCxE)+'</div></div><div class="kc"><div class="kl">Projetos</div><div class="kv">'+cx.length+'</div><div class="ks">'+(cx.filter(function(c){return c.st==='ok';}).length)+' concluidos</div></div>';
+  var catsCx={};for(var i=0;i<cx.length;i++){catsCx[cx[i].cat]=(catsCx[cx[i].cat]||0)+cx[i].valor;}
+  var cxK=Object.keys(catsCx),cxV=cxK.map(function(k){return catsCx[k];});
+  mkC('cvCapexPie',{type:'doughnut',data:{labels:cxK,datasets:[{data:cxV,backgroundColor:[C.az,C.do_,C.pk,C.ve],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts,font:{size:9}}},datalabels:{color:'#fff',font:{weight:'bold',size:10},formatter:function(v){var p=Math.round(v/totCx*100);return p>5?p+'%':'';}}}}});
+  mkC('cvCapexBar',{type:'bar',data:{labels:cx.map(function(c){return c.l;}),datasets:[{label:'Planejado',data:cx.map(function(c){return c.valor;}),backgroundColor:C.az+'55'},{label:'Executado',data:cx.map(function(c){return c.exec;}),backgroundColor:C.ve+'CC'}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{x:{ticks:{callback:function(v){return 'R$'+(v/1000).toFixed(0)+'K';},color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx,font:{size:9}}}}}});
+  var cxRows='';
+  for(var i=0;i<cx.length;i++){var c=cx[i];var pct=c.valor>0?Math.round(c.exec/c.valor*100):0;var sc=c.st==='ok'?'tg':c.st==='alerta'?'ty':c.st==='planej'?'tb':'tr';cxRows+='<tr><td><strong>'+c.l+'</strong></td><td>'+c.cat+'</td><td style="text-align:right">'+fR(c.valor)+'</td><td style="text-align:right">'+fR(c.exec)+'</td><td style="text-align:center">'+pct+'%</td><td style="text-align:center">'+c.prev+'</td><td><span class="tag '+sc+'">'+(c.st==='ok'?'Executado':c.st==='alerta'?'Em Atraso':c.st==='planej'?'Planejado':'--')+'</span></td></tr>';}
+  document.getElementById('tbl-capex').innerHTML='<thead><tr><th>Projeto / Investimento</th><th>Categoria</th><th>Planejado R$</th><th>Executado R$</th><th>% Exec.</th><th>Previsao</th><th>Status</th></tr></thead><tbody>'+cxRows+'</tbody>';
+}
+
+function buildBenchmarks(){
+  var C=getC(),pl=D.players,n=pl.map(function(p){return p.e;});
+  var clrs=[C.az,C.ve,C.pk,C.azc,C.do_,C.la,C.ci];
+  mkC('cvBT',{type:'bar',data:{labels:n,datasets:[{data:pl.map(function(p){return p.t;}),backgroundColor:clrs}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'%';}}},scales:{x:{max:32,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx}}}}});
+  mkC('cvBE',{type:'bar',data:{labels:n,datasets:[{data:pl.map(function(p){return p.n;}),backgroundColor:clrs}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return '+'+v;}}},scales:{x:{max:60,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx}}}}});
+  mkC('cvBA',{type:'bar',data:{labels:n,datasets:[{data:pl.map(function(p){return p.a;}),backgroundColor:clrs}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'%';}}},scales:{x:{max:7,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx}}}}});
+  mkC('cvBTD',{type:'bar',data:{labels:n,datasets:[{data:pl.map(function(p){return p.h;}),backgroundColor:clrs}]},options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:9},formatter:function(v){return v+'h';}}},scales:{x:{max:50,ticks:{color:C.tick},grid:{color:C.grid}},y:{ticks:{color:C.tx}}}}});
+  var rows='';for(var i=0;i<pl.length;i++){var p=pl[i];var hl=i===0?' style="font-weight:700;background:var(--bo2)"':'';rows+='<tr'+hl+'><td><strong>'+p.e+'</strong></td><td style="text-align:center">'+p.t+'%</td><td style="text-align:center">'+p.a+'%</td><td style="text-align:center"><strong>+'+p.n+'</strong></td><td style="text-align:center">'+p.m+'%</td><td style="text-align:center">'+p.h+'h</td><td style="text-align:center">'+(p.c?fN(p.c):'--')+'</td></tr>';}
+  document.getElementById('tbl-play').innerHTML='<thead><tr><th>Empresa</th><th>Turnover</th><th>Absenteismo</th><th>eNPS</th><th>Mulheres</th><th>T&D h</th><th>Colaboradores</th></tr></thead><tbody>'+rows+'</tbody>';
+}
+
+var CEN_CORS=['#009681','#003DA5','#E31C79','#C6A27C'];
+function buildPreditivo(){
+  var C=getC(),sc=D.cenarios;
+  mkC('cvCenT',{type:'bar',data:{labels:sc.map(function(s){return s.nome;}),datasets:[{label:'Turnover Proj',data:sc.map(function(s){return s.t;}),backgroundColor:CEN_CORS},{label:'Atual 18.4%',data:[18.4,18.4,18.4,18.4],type:'line',borderColor:C.ci,borderDash:[4,4],pointRadius:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:C.ts}},datalabels:{display:false}},scales:{y:{max:35,ticks:{callback:function(v){return v+'%';},color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick}}}}});
+  mkC('cvCenH',{type:'bar',data:{labels:sc.map(function(s){return s.nome;}),datasets:[{data:sc.map(function(s){return s.hc;}),backgroundColor:CEN_CORS}]},options:{plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:C.tx,font:{weight:'bold',size:10},formatter:function(v){return fN(v);}}},scales:{y:{min:400,max:800,ticks:{color:C.tick},grid:{color:C.grid}},x:{ticks:{color:C.tick}}}}});
+  var html='';
+  for(var i=0;i<sc.length;i++){var s=sc[i];var li='';for(var j=0;j<s.acoes.length;j++){li+='<li>'+s.acoes[j]+'</li>';}html+='<div class="sc-c" style="background:'+s.cor+'"><h3>'+s.nome+'</h3><div class="sc-prob">Prob: '+s.prob+'% &mdash; '+s.descricao+'</div><div class="sc-kpis"><div class="sc-kpi"><div class="sv">'+s.t+'%</div><div class="sl">Turnover</div></div><div class="sc-kpi"><div class="sv">'+s.a+'%</div><div class="sl">Absenteismo</div></div><div class="sc-kpi"><div class="sv">+'+s.n+'</div><div class="sl">eNPS</div></div></div><div class="sc-kpis"><div class="sc-kpi"><div class="sv">'+fN(s.hc)+'</div><div class="sl">HC Proj</div></div><div class="sc-kpi"><div class="sv">'+(s.ck>=0?'+':'')+'R$'+Math.abs(s.ck)+'K</div><div class="sl">Custo Adic</div></div><div class="sc-kpi"><div class="sv">'+s.prob+'%</div><div class="sl">Prob</div></div></div><div class="sc-acoes"><h4>Plano de Acao</h4><ul>'+li+'</ul></div></div>';}
+  document.getElementById('sg-cards').innerHTML=html;
+  simUpdate(18.4);
+}
+function simUpdate(v){
+  v=parseFloat(v);document.getElementById('sl-val').innerHTML=v.toFixed(1);
+  var hc=D.k.hc,atual=Math.round(hc*v/100),econ=(atual-Math.round(hc*12/100))*8500,gain=Math.round((18.4-v)*0.5);
+  document.getElementById('sim-res').innerHTML='<div class="kc g"><div class="kl">Desligamentos/ano proj</div><div class="kv">'+fN(atual)+'</div><div class="ks">Com turnover '+v.toFixed(1)+'%</div></div><div class="kc d"><div class="kl">Economia vs Meta 12%</div><div class="kv" style="font-size:14px">'+fR(Math.max(0,econ))+'</div><div class="ks">Anual projetada</div></div><div class="kc c"><div class="kl">Ganho eNPS est</div><div class="kv">'+(gain>=0?'+':'')+gain+'</div><div class="ks">Correlacao historica</div></div>';
+}
+
+function buildPlano(){
+  /* RACI data */
+  var raci=[
+    {ativ:'Programa Retencao Tec. Enfermagem',cols:['R','A','C','I','R','I','I','I']},
+    {ativ:'Revisao Salarial ao P50',cols:['R','A','I','I','C','I','I','A']},
+    {ativ:'Pesquisa de Clima + Plano Acao',cols:['R','I','C','I','I','I','I','A']},
+    {ativ:'Expansao EAP Saude Mental',cols:['C','A','I','I','I','I','R','I']},
+    {ativ:'Revisao Escala / Banco de Horas',cols:['C','A','R','I','I','I','I','I']},
+    {ativ:'Programa de Sucessao 9-Box',cols:['R','A','C','I','I','C','I','I']},
+    {ativ:'Academy RH  --  Trilhas Certificadas',cols:['C','A','I','I','I','R','I','I']},
+    {ativ:'Upgrade Sistema HRIS (CAPEX)',cols:['C','A','I','R','I','I','I','I']},
+    {ativ:'Plano Integracao M&A (contingencia)',cols:['R','A','C','C','C','C','C','A']}
+  ];
+  var raciCls={R:'r-R',A:'r-A',C:'r-C',I:'r-I'};
+  var rows='';
+  for(var i=0;i<raci.length;i++){
+    var r=raci[i];var cells='';
+    for(var j=0;j<r.cols.length;j++){cells+='<td><span class="'+raciCls[r.cols[j]]+'">'+r.cols[j]+'</span></td>';}
+    rows+='<tr><td>'+r.ativ+'</td>'+cells+'</tr>';
+  }
+  document.getElementById('raci-tbody').innerHTML=rows;
+}
+
+/* PDF */
+function openPdf(){
+  var k=D.k,op=D.opex;
+  var totO=0,totR=0;for(var i=0;i<op.length;i++){totO+=op[i].oa;totR+=op[i].ra;}
+  var hoje=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  /* alert rows */
+  var alRows='';for(var i=0;i<op.length;i++){if(op[i].st!=='ok'){alRows+='<tr><td>'+op[i].l+'</td><td style="text-align:right">'+fR(op[i].oa)+'</td><td style="text-align:right">'+fR(op[i].ra)+'</td><td style="text-align:center">'+(op[i].vp>0?'+':'')+op[i].vp.toFixed(1)+'%</td><td>Alerta</td></tr>';}}
+  alRows+='<tr style="background:#eef3ff"><td><strong>TOTAL OPEX RH</strong></td><td style="text-align:right"><strong>'+fR(totO)+'</strong></td><td style="text-align:right"><strong>'+fR(totR)+'</strong></td><td style="text-align:center"><strong>'+(((totR-totO)/totO*100)>0?'+':'')+((totR-totO)/totO*100).toFixed(1)+'%</strong></td><td>--</td></tr>';
+  /* 9box rows */
+  var nbR='';for(var i=0;i<Math.min(5,D.nineBox.length);i++){var nb=D.nineBox[i];nbR+='<tr><td>'+nb.q+'</td><td style="text-align:center">'+nb.p+'%</td><td style="text-align:center">'+nb.n+'</td><td>'+(nb.p>=16?'Reter/Acelerar':nb.p>=10?'PDI Acelerado':'PIP ou Deslig.')+'</td></tr>';}
+  /* clima rows */
+  var clR='';for(var i=0;i<D.clima.length;i++){var cl=D.clima[i];var dif=cl.u-cl.b;clR+='<tr><td>'+cl.p+'</td><td style="text-align:center">'+cl.u+'</td><td style="text-align:center">'+cl.b+'</td><td style="text-align:center;color:'+(dif>=5?'#009681':'#E31C79')+'">'+(dif>0?'+':'')+dif+'</td></tr>';}
+  /* players rows */
+  var plR='';for(var i=0;i<Math.min(4,D.players.length);i++){var p=D.players[i];plR+='<tr><td><strong>'+p.e+'</strong></td><td>'+p.t+'%</td><td>+'+p.n+'</td><td>'+p.h+'h</td><td>'+p.a+'%</td></tr>';}
+  /* CAPEX summary */
+  var cx=D.capex;var totCx=0,totCxE=0;for(var i=0;i<cx.length;i++){totCx+=cx[i].valor;totCxE+=cx[i].exec;}
+
+  document.getElementById('pm-content').innerHTML=
+  '<div class="pm-pg">'+
+    '<div class="pm-hbar"><div><div class="pm-h1">Relatorio Executivo  --  Gente &amp; Gestao</div><div class="pm-sub">Unidade Hospitalar RJ &middot; HRBP &middot; '+D.meta.data_base+'</div></div><div class="pm-date"><strong>REDE D\'OR</strong>'+hoje+'<br>Confidencial</div></div>'+
+    '<div class="pm-sec">KPIs ESTRATEGICOS  --  VISAO CONSOLIDADA</div>'+
+    '<div class="pm-kr">'+
+      '<div class="pm-kc"><div class="pv">'+fN(k.hc)+'</div><div class="pl">Headcount</div><div class="ps">Colaboradores ativos</div></div>'+
+      '<div class="pm-kc r"><div class="pv">'+k.turn+'%</div><div class="pl">Turnover Anual</div><div class="ps">Meta &lt;20% | ANAHP 22%</div></div>'+
+      '<div class="pm-kc g"><div class="pv">+'+k.enps+'</div><div class="pl">eNPS</div><div class="ps">Benchmark +30</div></div>'+
+      '<div class="pm-kc r"><div class="pv">'+k.abst+'%</div><div class="pl">Absenteismo</div><div class="ps">Meta &lt;5%</div></div>'+
+    '</div>'+
+    '<div class="pm-kr">'+
+      '<div class="pm-kc d"><div class="pv">'+fR(k.folha_m)+'</div><div class="pl">Folha Mensal</div><div class="ps">CLT + encargos</div></div>'+
+      '<div class="pm-kc"><div class="pv">'+k.td_h+'h</div><div class="pl">T&D / Colaborador</div><div class="ps">Brasil media: 24h</div></div>'+
+      '<div class="pm-kc g"><div class="pv">'+k.prom_int+'%</div><div class="pl">Promocoes Internas</div><div class="ps">Das vagas seniors</div></div>'+
+      '<div class="pm-kc"><div class="pv">'+k.vagas+'</div><div class="pl">Vagas Abertas</div><div class="ps">Em processo R&S</div></div>'+
+    '</div>'+
+    '<div class="pm-sec">ALERTAS OPERACIONAIS</div>'+
+    '<div class="pm-als">'+
+      '<div class="pm-al w"><h4>HE +7.1% acima do orcado</h4>Gap de dimensionamento em picos operacionais. Revisar escala e implementar banco de horas preventivo antes de julho.</div>'+
+      '<div class="pm-al w"><h4>Turnover Tec. Enfermagem: 28%</h4>3x a media da unidade. Driver principal do custo de R$799K/ano. Programa de retencao ja estruturado no Plano de Acao.</div>'+
+      '<div class="pm-al"><h4>eNPS +42  --  Acima do setor</h4>Acima do benchmark ANAHP +30. Gap de 9pp para Sirio-Libanes +51  --  meta de longo prazo. Pilares criticos: Remuneracao e Carreira.</div>'+
+    '</div>'+
+    '<div class="pm-sec">ORCAMENTO OPEX RH  --  RESUMO EXECUTIVO</div>'+
+    '<table class="pm-mt"><thead><tr><th>Linha</th><th>Orcado Anual</th><th>Realizado</th><th>Variacao</th><th>Status</th></tr></thead><tbody>'+alRows+'</tbody></table>'+
+    '<div class="pm-sec">CAPEX DE RH 2025  --  VISAO GERAL</div>'+
+    '<div class="pm-kr" style="grid-template-columns:1fr 1fr 1fr">'+
+      '<div class="pm-kc"><div class="pv">'+fR(totCx)+'</div><div class="pl">CAPEX Planejado</div></div>'+
+      '<div class="pm-kc g"><div class="pv">'+fR(totCxE)+'</div><div class="pl">Executado ('+(Math.round(totCxE/totCx*100))+'%)</div></div>'+
+      '<div class="pm-kc d"><div class="pv">'+fR(totCx-totCxE)+'</div><div class="pl">Saldo a Executar</div></div>'+
+    '</div>'+
+    '<div class="pm-ft"><span>Rede Prime D&#39;Or Sao Luiz | HRBP Unidade RJ</span><span>Pagina 1 de 2</span><span>Confidencial</span></div>'+
+  '</div>'+
+  '<div class="pm-pg">'+
+    '<div class="pm-hbar"><div><div class="pm-h1">Desempenho, Clima, Mercado &amp; Plano de Acao</div><div class="pm-sub">Continuacao &middot; '+D.meta.data_base+'</div></div><div class="pm-date"><strong>REDE D\'OR</strong>Pagina 2 de 2</div></div>'+
+    '<div class="pm-sec">DESEMPENHO &amp; CLIMA ORGANIZACIONAL</div>'+
+    '<div class="pm-2c">'+
+      '<div>'+
+        '<div class="pm-box"><h4>Matriz 9-Box</h4><p>38% do quadro em alto potencial (Alto Potencial + Stars). 12% em zona de risco  --  PIP imediato. Os 23% Comprometidos tem potencial latente: PDI acelerado pode converter em lideres sem recrutamento externo.</p></div>'+
+        '<table class="pm-mt"><thead><tr><th>Quadrante</th><th>%</th><th>Qtd</th><th>Acao</th></tr></thead><tbody>'+nbR+'</tbody></table>'+
+      '</div>'+
+      '<div>'+
+        '<div class="pm-box w"><h4>Clima  --  Pilares Criticos</h4><p>Remuneracao (58/100) e Carreira (62/100) sao os pilares abaixo de 65  --  alinhados ao Glassdoor. Alavancas: revisao salarial ao P50 e plano de carreira claro por funcao.</p></div>'+
+        '<table class="pm-mt"><thead><tr><th>Pilar</th><th>Nota</th><th>Bench</th><th>Gap</th></tr></thead><tbody>'+clR+'</tbody></table>'+
+      '</div>'+
+    '</div>'+
+    '<div class="pm-sec">BENCHMARKS &amp; POSICIONAMENTO COMPETITIVO</div>'+
+    '<div class="pm-2c">'+
+      '<div>'+
+        '<div class="pm-box"><h4>Posicao de Mercado</h4><p>Prime D&#39;Or: turnover 18%  --  melhor que Hapvida 26% e Dasa 24%. eNPS +42 acima da ANAHP +30. Gap para Sirio: 6pp turnover e 9pp eNPS  --  referencia maxima de cultura e retencao.</p></div>'+
+        '<table class="pm-mt"><thead><tr><th>Empresa</th><th>Turnover</th><th>eNPS</th><th>T&D</th><th>Absentei.</th></tr></thead><tbody>'+plR+'</tbody></table>'+
+      '</div>'+
+      '<div>'+
+        '<div class="pm-box"><h4>Cenario Base (55% prob.)</h4><p>Crescimento moderado, pressao 6% a.a. em folha, turnover 18.5%. Prioridades: (1) revisao salarial P50, (2) retencao tecnicos enfermagem, (3) EAP saude mental, (4) sucessao de gestores.</p></div>'+
+        '<div class="pm-box c"><h4>Alerta M&A (15% prob.)</h4><p>Fusao/aquisicao pode elevar turnover para 28% por choque cultural. Due diligence de cultura e plano de integracao 100 dias devem ser estruturados preventivamente ja no S2/2025.</p></div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="pm-sec">RECOMENDACOES ESTRATEGICAS  --  Q3/Q4 2025</div>'+
+    '<div class="pm-als">'+
+      '<div class="pm-al"><h4>30 dias  --  Alta Prioridade</h4>Lancaar retencao Tec. Enfermagem: bonus permanencia + trilha carreira Y. Reducao de 8pp no grupo = R$272K economizados/ano. Payback: 7 meses.</div>'+
+      '<div class="pm-al w"><h4>90 dias  --  Revisao Estrutural</h4>Revisao salarial ao P50 nos cargos defasados. Plano de acao de clima por pilar com cada gestor. Expansao EAP  --  meta: -0.5pp no absenteismo.</div>'+
+      '<div class="pm-al"><h4>180 dias  --  Construcao Cultural</h4>Programa de sucessao formal para 38% de alto potencial. Academy RH com trilhas certificadas. Meta: promocoes internas de 62% para 70%.</div>'+
+    '</div>'+
+    '<div class="pm-ft"><span>Rede Prime D&#39;Or Sao Luiz | HRBP Unidade RJ</span><span>Pagina 2 de 2</span><span>Confidencial</span></div>'+
+  '</div>';
+  document.getElementById('pm').classList.add('open');
+}
+function closePdf(){document.getElementById('pm').classList.remove('open');}
+
+/* INIT */
+window.addEventListener('DOMContentLoaded',function(){
+  buildCover();
+});
+</script>
+</body>
+</html>

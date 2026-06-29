@@ -1,0 +1,800 @@
+{
+  "meta": {
+    "versao": "1.0",
+    "data_base": "Jun/2025",
+    "unidade": "Hospital RJ",
+    "headcount_base": 512
+  },
+  "cargos_salarios": [
+    {
+      "cargo": "HRBP Sênior",
+      "area": "Gente & Gestão",
+      "nivel": "Sênior",
+      "headcount": 4,
+      "salario_rededor": 12800,
+      "salario_sirio": 15200,
+      "salario_hapvida": 9800,
+      "salario_fleury": 13500,
+      "salario_dasa": 11200,
+      "salario_mercado_p50": 12500,
+      "salario_mercado_p75": 14800,
+      "bonus_anual_pct": 15,
+      "beneficios_mensais": 2200,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "HRBP Pleno",
+      "area": "Gente & Gestão",
+      "nivel": "Pleno",
+      "headcount": 8,
+      "salario_rededor": 8900,
+      "salario_sirio": 10500,
+      "salario_hapvida": 7200,
+      "salario_fleury": 9400,
+      "salario_dasa": 8100,
+      "salario_mercado_p50": 8800,
+      "salario_mercado_p75": 10200,
+      "bonus_anual_pct": 10,
+      "beneficios_mensais": 1800,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Analista RH Sênior",
+      "area": "Gente & Gestão",
+      "nivel": "Sênior",
+      "headcount": 6,
+      "salario_rededor": 7200,
+      "salario_sirio": 8800,
+      "salario_hapvida": 5900,
+      "salario_fleury": 7800,
+      "salario_dasa": 6900,
+      "salario_mercado_p50": 7000,
+      "salario_mercado_p75": 8500,
+      "bonus_anual_pct": 8,
+      "beneficios_mensais": 1600,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Analista RH Pleno",
+      "area": "Gente & Gestão",
+      "nivel": "Pleno",
+      "headcount": 10,
+      "salario_rededor": 5400,
+      "salario_sirio": 6500,
+      "salario_hapvida": 4400,
+      "salario_fleury": 5800,
+      "salario_dasa": 5100,
+      "salario_mercado_p50": 5300,
+      "salario_mercado_p75": 6400,
+      "bonus_anual_pct": 6,
+      "beneficios_mensais": 1400,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Analista RH Junior",
+      "area": "Gente & Gestão",
+      "nivel": "Júnior",
+      "headcount": 8,
+      "salario_rededor": 3200,
+      "salario_sirio": 3900,
+      "salario_hapvida": 2800,
+      "salario_fleury": 3500,
+      "salario_dasa": 3100,
+      "salario_mercado_p50": 3100,
+      "salario_mercado_p75": 3800,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1200,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Enfermeiro Sênior",
+      "area": "Assistencial",
+      "nivel": "Sênior",
+      "headcount": 52,
+      "salario_rededor": 8400,
+      "salario_sirio": 11200,
+      "salario_hapvida": 6500,
+      "salario_fleury": 7200,
+      "salario_dasa": 7800,
+      "salario_mercado_p50": 8000,
+      "salario_mercado_p75": 10000,
+      "bonus_anual_pct": 5,
+      "beneficios_mensais": 1800,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Enfermeiro Pleno",
+      "area": "Assistencial",
+      "nivel": "Pleno",
+      "headcount": 68,
+      "salario_rededor": 6200,
+      "salario_sirio": 8000,
+      "salario_hapvida": 4900,
+      "salario_fleury": 5800,
+      "salario_dasa": 5900,
+      "salario_mercado_p50": 5900,
+      "salario_mercado_p75": 7500,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1600,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Técnico Enfermagem",
+      "area": "Assistencial",
+      "nivel": "Técnico",
+      "headcount": 184,
+      "salario_rededor": 3800,
+      "salario_sirio": 4900,
+      "salario_hapvida": 3100,
+      "salario_fleury": 3600,
+      "salario_dasa": 3700,
+      "salario_mercado_p50": 3700,
+      "salario_mercado_p75": 4500,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1200,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Auxiliar Enfermagem",
+      "area": "Assistencial",
+      "nivel": "Operacional",
+      "headcount": 96,
+      "salario_rededor": 2600,
+      "salario_sirio": 3200,
+      "salario_hapvida": 2200,
+      "salario_fleury": 2700,
+      "salario_dasa": 2500,
+      "salario_mercado_p50": 2500,
+      "salario_mercado_p75": 3100,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1000,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Médico (Plantonista)",
+      "area": "Assistencial",
+      "nivel": "Especialista",
+      "headcount": 38,
+      "salario_rededor": 18500,
+      "salario_sirio": 24000,
+      "salario_hapvida": 14000,
+      "salario_fleury": 16000,
+      "salario_dasa": 17500,
+      "salario_mercado_p50": 18000,
+      "salario_mercado_p75": 23000,
+      "bonus_anual_pct": 10,
+      "beneficios_mensais": 2800,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Coordenador Médico",
+      "area": "Assistencial",
+      "nivel": "Gestão",
+      "headcount": 6,
+      "salario_rededor": 22000,
+      "salario_sirio": 28000,
+      "salario_hapvida": 17000,
+      "salario_fleury": 20000,
+      "salario_dasa": 21000,
+      "salario_mercado_p50": 21000,
+      "salario_mercado_p75": 27000,
+      "bonus_anual_pct": 15,
+      "beneficios_mensais": 3200,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Gerente Unidade",
+      "area": "Gestão",
+      "nivel": "Gestão",
+      "headcount": 3,
+      "salario_rededor": 16500,
+      "salario_sirio": 22000,
+      "salario_hapvida": 12000,
+      "salario_fleury": 15000,
+      "salario_dasa": 15500,
+      "salario_mercado_p50": 16000,
+      "salario_mercado_p75": 21000,
+      "bonus_anual_pct": 20,
+      "beneficios_mensais": 3000,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Supervisor Operacional",
+      "area": "Gestão",
+      "nivel": "Liderança",
+      "headcount": 12,
+      "salario_rededor": 7800,
+      "salario_sirio": 9500,
+      "salario_hapvida": 5900,
+      "salario_fleury": 7200,
+      "salario_dasa": 7300,
+      "salario_mercado_p50": 7500,
+      "salario_mercado_p75": 9000,
+      "bonus_anual_pct": 8,
+      "beneficios_mensais": 1700,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Assistente Administrativo",
+      "area": "Administrativo",
+      "nivel": "Operacional",
+      "headcount": 28,
+      "salario_rededor": 2400,
+      "salario_sirio": 2900,
+      "salario_hapvida": 2000,
+      "salario_fleury": 2500,
+      "salario_dasa": 2300,
+      "salario_mercado_p50": 2300,
+      "salario_mercado_p75": 2800,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 900,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Analista Financeiro",
+      "area": "Administrativo",
+      "nivel": "Pleno",
+      "headcount": 6,
+      "salario_rededor": 6800,
+      "salario_sirio": 8200,
+      "salario_hapvida": 5400,
+      "salario_fleury": 7000,
+      "salario_dasa": 6500,
+      "salario_mercado_p50": 6600,
+      "salario_mercado_p75": 8000,
+      "bonus_anual_pct": 8,
+      "beneficios_mensais": 1500,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Nutricionista",
+      "area": "Assistencial",
+      "nivel": "Especialista",
+      "headcount": 8,
+      "salario_rededor": 4800,
+      "salario_sirio": 6200,
+      "salario_hapvida": 3800,
+      "salario_fleury": 4500,
+      "salario_dasa": 4600,
+      "salario_mercado_p50": 4700,
+      "salario_mercado_p75": 5900,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1300,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Assistente Social",
+      "area": "Assistencial",
+      "nivel": "Especialista",
+      "headcount": 5,
+      "salario_rededor": 4200,
+      "salario_sirio": 5500,
+      "salario_hapvida": 3400,
+      "salario_fleury": 4000,
+      "salario_dasa": 4100,
+      "salario_mercado_p50": 4100,
+      "salario_mercado_p75": 5200,
+      "bonus_anual_pct": 0,
+      "beneficios_mensais": 1200,
+      "encargos_pct": 0.72
+    },
+    {
+      "cargo": "Farmacêutico",
+      "area": "Assistencial",
+      "nivel": "Especialista",
+      "headcount": 7,
+      "salario_rededor": 6400,
+      "salario_sirio": 8000,
+      "salario_hapvida": 5100,
+      "salario_fleury": 6000,
+      "salario_dasa": 6200,
+      "salario_mercado_p50": 6200,
+      "salario_mercado_p75": 7700,
+      "bonus_anual_pct": 5,
+      "beneficios_mensais": 1500,
+      "encargos_pct": 0.72
+    }
+  ],
+  "movimentacao_mensal": [
+    {
+      "mes": "Jan",
+      "admissoes": 9,
+      "desligamentos": 7,
+      "turnover_pct": 1.56,
+      "absenteismo_pct": 4.2,
+      "headcount": 512
+    },
+    {
+      "mes": "Fev",
+      "admissoes": 7,
+      "desligamentos": 6,
+      "turnover_pct": 1.27,
+      "absenteismo_pct": 4.0,
+      "headcount": 514
+    },
+    {
+      "mes": "Mar",
+      "admissoes": 6,
+      "desligamentos": 10,
+      "turnover_pct": 1.56,
+      "absenteismo_pct": 4.5,
+      "headcount": 515
+    },
+    {
+      "mes": "Abr",
+      "admissoes": 8,
+      "desligamentos": 7,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 4.3,
+      "headcount": 511
+    },
+    {
+      "mes": "Mai",
+      "admissoes": 8,
+      "desligamentos": 7,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 4.6,
+      "headcount": 512
+    },
+    {
+      "mes": "Jun",
+      "admissoes": 7,
+      "desligamentos": 8,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 5.2,
+      "headcount": 513
+    },
+    {
+      "mes": "Jul",
+      "admissoes": 5,
+      "desligamentos": 11,
+      "turnover_pct": 1.56,
+      "absenteismo_pct": 5.5,
+      "headcount": 512
+    },
+    {
+      "mes": "Ago",
+      "admissoes": 8,
+      "desligamentos": 7,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 4.8,
+      "headcount": 506
+    },
+    {
+      "mes": "Set",
+      "admissoes": 9,
+      "desligamentos": 6,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 4.4,
+      "headcount": 507
+    },
+    {
+      "mes": "Out",
+      "admissoes": 6,
+      "desligamentos": 10,
+      "turnover_pct": 1.56,
+      "absenteismo_pct": 4.7,
+      "headcount": 510
+    },
+    {
+      "mes": "Nov",
+      "admissoes": 8,
+      "desligamentos": 7,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 4.9,
+      "headcount": 506
+    },
+    {
+      "mes": "Dez",
+      "admissoes": 9,
+      "desligamentos": 6,
+      "turnover_pct": 1.46,
+      "absenteismo_pct": 5.3,
+      "headcount": 507
+    }
+  ],
+  "motivos_desligamento": [
+    {
+      "motivo": "Pedido de demissão",
+      "count": 32,
+      "pct": 34
+    },
+    {
+      "motivo": "Melhor oportunidade",
+      "count": 24,
+      "pct": 26
+    },
+    {
+      "motivo": "Demissão s/ justa causa",
+      "count": 17,
+      "pct": 18
+    },
+    {
+      "motivo": "Desempenho",
+      "count": 11,
+      "pct": 12
+    },
+    {
+      "motivo": "Aposentadoria",
+      "count": 7,
+      "pct": 7
+    },
+    {
+      "motivo": "Outros",
+      "count": 3,
+      "pct": 3
+    }
+  ],
+  "nineBox": [
+    {
+      "quadrante": "Alto Potencial",
+      "entrega": "Alta",
+      "potencial": "Alto",
+      "pct": 22,
+      "qtd": 113
+    },
+    {
+      "quadrante": "Star / High Performer",
+      "entrega": "Alta",
+      "potencial": "Excepcional",
+      "pct": 16,
+      "qtd": 82
+    },
+    {
+      "quadrante": "Comprometido",
+      "entrega": "Média",
+      "potencial": "Alto",
+      "pct": 23,
+      "qtd": 118
+    },
+    {
+      "quadrante": "Core",
+      "entrega": "Média",
+      "potencial": "Médio",
+      "pct": 14,
+      "qtd": 72
+    },
+    {
+      "quadrante": "Questionável",
+      "entrega": "Alta",
+      "potencial": "Baixo",
+      "pct": 8,
+      "qtd": 41
+    },
+    {
+      "quadrante": "Inconsistente",
+      "entrega": "Baixa",
+      "potencial": "Alto",
+      "pct": 5,
+      "qtd": 26
+    },
+    {
+      "quadrante": "Risco",
+      "entrega": "Baixa",
+      "potencial": "Baixo",
+      "pct": 6,
+      "qtd": 31
+    },
+    {
+      "quadrante": "Em Observação",
+      "entrega": "Baixa",
+      "potencial": "Médio",
+      "pct": 4,
+      "qtd": 21
+    },
+    {
+      "quadrante": "Baixo Desempenho",
+      "entrega": "Média",
+      "potencial": "Baixo",
+      "pct": 2,
+      "qtd": 8
+    }
+  ],
+  "clima": [
+    {
+      "pilar": "Liderança",
+      "nota_unidade": 82,
+      "nota_benchmark": 72
+    },
+    {
+      "pilar": "Orgulho",
+      "nota_unidade": 78,
+      "nota_benchmark": 70
+    },
+    {
+      "pilar": "Camaradagem",
+      "nota_unidade": 75,
+      "nota_benchmark": 68
+    },
+    {
+      "pilar": "Credibilidade",
+      "nota_unidade": 71,
+      "nota_benchmark": 65
+    },
+    {
+      "pilar": "Imparcialidade",
+      "nota_unidade": 68,
+      "nota_benchmark": 63
+    },
+    {
+      "pilar": "Respeito",
+      "nota_unidade": 74,
+      "nota_benchmark": 67
+    },
+    {
+      "pilar": "Remuneração",
+      "nota_unidade": 58,
+      "nota_benchmark": 55
+    },
+    {
+      "pilar": "Carreira",
+      "nota_unidade": 62,
+      "nota_benchmark": 58
+    }
+  ],
+  "orcamento_opex": [
+    {
+      "linha": "Salários e Encargos",
+      "categoria": "Folha",
+      "orcado_mensal": 3650000,
+      "orcado_anual": 43800000,
+      "realizado_anual": 45358276,
+      "variacao_pct": 3.6,
+      "status": "ok"
+    },
+    {
+      "linha": "Benefícios (VT+VR+Plano)",
+      "categoria": "Benefícios",
+      "orcado_mensal": 820000,
+      "orcado_anual": 9840000,
+      "realizado_anual": 9849844,
+      "variacao_pct": 0.1,
+      "status": "ok"
+    },
+    {
+      "linha": "Horas Extras",
+      "categoria": "Folha",
+      "orcado_mensal": 145000,
+      "orcado_anual": 1740000,
+      "realizado_anual": 1863542,
+      "variacao_pct": 7.1,
+      "status": "alerta"
+    },
+    {
+      "linha": "Recrutamento & Seleção",
+      "categoria": "R&S",
+      "orcado_mensal": 92000,
+      "orcado_anual": 1104000,
+      "realizado_anual": 1146977,
+      "variacao_pct": 3.9,
+      "status": "ok"
+    },
+    {
+      "linha": "Treinamento & Desenvolvimento",
+      "categoria": "T&D",
+      "orcado_mensal": 68000,
+      "orcado_anual": 816000,
+      "realizado_anual": 872678,
+      "variacao_pct": 6.9,
+      "status": "alerta"
+    },
+    {
+      "linha": "Medicina do Trabalho",
+      "categoria": "SSO",
+      "orcado_mensal": 38000,
+      "orcado_anual": 456000,
+      "realizado_anual": 468343,
+      "variacao_pct": 2.7,
+      "status": "ok"
+    },
+    {
+      "linha": "Uniformes & EPIs",
+      "categoria": "Operacional",
+      "orcado_mensal": 24000,
+      "orcado_anual": 288000,
+      "realizado_anual": 296838,
+      "variacao_pct": 3.1,
+      "status": "ok"
+    },
+    {
+      "linha": "Software RH (HRIS)",
+      "categoria": "TI",
+      "orcado_mensal": 18000,
+      "orcado_anual": 216000,
+      "realizado_anual": 212431,
+      "variacao_pct": -1.7,
+      "status": "ok"
+    },
+    {
+      "linha": "Consultorias RH",
+      "categoria": "Outros",
+      "orcado_mensal": 15000,
+      "orcado_anual": 180000,
+      "realizado_anual": 174038,
+      "variacao_pct": -3.3,
+      "status": "ok"
+    },
+    {
+      "linha": "Eventos Corporativos",
+      "categoria": "Engajamento",
+      "orcado_mensal": 22000,
+      "orcado_anual": 264000,
+      "realizado_anual": 285435,
+      "variacao_pct": 8.1,
+      "status": "alerta"
+    }
+  ],
+  "players": [
+    {
+      "empresa": "Rede D'Or",
+      "segmento": "Hospitalar Premium",
+      "colaboradores": 60000,
+      "turnover_pct": 18,
+      "absenteismo_pct": 4.8,
+      "enps": 42,
+      "mulheres_pct": 75,
+      "td_horas": 32,
+      "custo_turnover_k": 8.5,
+      "receita_bi": 51.3,
+      "market_cap_bi": 79
+    },
+    {
+      "empresa": "Sírio-Libanês",
+      "segmento": "Hospitalar Premium",
+      "colaboradores": 9000,
+      "turnover_pct": 12,
+      "absenteismo_pct": 4.2,
+      "enps": 51,
+      "mulheres_pct": 73,
+      "td_horas": 40,
+      "custo_turnover_k": 12.0,
+      "receita_bi": 2.8,
+      "market_cap_bi": null
+    },
+    {
+      "empresa": "Hapvida (NDI)",
+      "segmento": "Planos + Hospitais",
+      "colaboradores": 80000,
+      "turnover_pct": 26,
+      "absenteismo_pct": 5.8,
+      "enps": 18,
+      "mulheres_pct": 70,
+      "td_horas": 18,
+      "custo_turnover_k": 6.5,
+      "receita_bi": 28.0,
+      "market_cap_bi": 22
+    },
+    {
+      "empresa": "Fleury+Pardini",
+      "segmento": "Diagnósticos",
+      "colaboradores": 22000,
+      "turnover_pct": 20,
+      "absenteismo_pct": 4.5,
+      "enps": 38,
+      "mulheres_pct": 72,
+      "td_horas": 28,
+      "custo_turnover_k": 9.0,
+      "receita_bi": 5.8,
+      "market_cap_bi": 8
+    },
+    {
+      "empresa": "Dasa+Amil JV",
+      "segmento": "Diagnósticos + Hosp.",
+      "colaboradores": 35000,
+      "turnover_pct": 24,
+      "absenteismo_pct": 5.5,
+      "enps": 22,
+      "mulheres_pct": 69,
+      "td_horas": 20,
+      "custo_turnover_k": 7.5,
+      "receita_bi": 9.9,
+      "market_cap_bi": null
+    },
+    {
+      "empresa": "Mater Dei",
+      "segmento": "Hospitalar Regional",
+      "colaboradores": 8000,
+      "turnover_pct": 21,
+      "absenteismo_pct": 5.0,
+      "enps": 28,
+      "mulheres_pct": 68,
+      "td_horas": 24,
+      "custo_turnover_k": 8.0,
+      "receita_bi": 2.1,
+      "market_cap_bi": 3
+    },
+    {
+      "empresa": "Benchmark ANAHP",
+      "segmento": "Setor Privado",
+      "colaboradores": null,
+      "turnover_pct": 22,
+      "absenteismo_pct": 5.3,
+      "enps": 30,
+      "mulheres_pct": 68,
+      "td_horas": 24,
+      "custo_turnover_k": 8.0,
+      "receita_bi": null,
+      "market_cap_bi": null
+    }
+  ],
+  "cenarios_preditivos": [
+    {
+      "nome": "Otimista",
+      "probabilidade": 25,
+      "descricao": "Economia aquece, planos de saúde expandem, demanda por leitos cresce 12%",
+      "turnover_proj": 15.2,
+      "absenteismo_proj": 4.2,
+      "enps_proj": 48,
+      "headcount_proj": 545,
+      "custo_adicional_k": 0,
+      "acoes": [
+        "Acelerar programa de trainee e jovem aprendiz",
+        "Criar plano de carreira em Y (técnico x gestão)",
+        "Implementar PLR vinculado a indicadores de qualidade",
+        "Lançar Academia Interna com trilhas certificadas"
+      ]
+    },
+    {
+      "nome": "Base",
+      "probabilidade": 55,
+      "descricao": "Crescimento moderado, pressão inflacionária em insumos e folha de ~6% a.a.",
+      "turnover_proj": 18.5,
+      "absenteismo_proj": 4.9,
+      "enps_proj": 43,
+      "headcount_proj": 520,
+      "custo_adicional_k": 180,
+      "acoes": [
+        "Revisão salarial anual alinhada ao P50 do mercado",
+        "Programa de retenção focado em técnicos de enfermagem (top turnover)",
+        "Expansão do EAP (Employee Assistance Program) para saúde mental",
+        "Estruturar sucessão de gestores intermediários"
+      ]
+    },
+    {
+      "nome": "Pessimista",
+      "probabilidade": 20,
+      "descricao": "Retração econômica, glosa de planos aumenta 15%, pressão por redução de 8% em headcount",
+      "turnover_proj": 24.8,
+      "absenteismo_proj": 6.1,
+      "enps_proj": 32,
+      "headcount_proj": 472,
+      "custo_adicional_k": -320,
+      "acoes": [
+        "Plano de desligamento voluntário incentivado (PDV) estruturado",
+        "Revisão de terceiros e redução de horas extras",
+        "Task force de clima para evitar contágio cultural negativo",
+        "Comunicação transparente com lideranças sobre cortes orçamentários"
+      ]
+    },
+    {
+      "nome": "Fusão / M&A",
+      "probabilidade": 15,
+      "descricao": "Aquisição de nova unidade hospitalar ou fusão com player regional no RJ",
+      "turnover_proj": 28.0,
+      "absenteismo_proj": 6.8,
+      "enps_proj": 28,
+      "headcount_proj": 720,
+      "custo_adicional_k": 850,
+      "acoes": [
+        "Due diligence de cultura e clima organizacional da unidade alvo",
+        "Plano de integração cultural 100 dias pós-fusão",
+        "Mapeamento de talentos críticos a reter na operação adquirida",
+        "Harmonização de políticas de RH e benefícios entre as bases"
+      ]
+    }
+  ],
+  "kpis_resumo": {
+    "headcount": 512,
+    "turnover_anual_pct": 18.4,
+    "absenteismo_pct": 4.8,
+    "enps": 42,
+    "cobertura_avaliacao_pct": 88,
+    "td_horas_media": 32,
+    "promocoes_internas_pct": 62,
+    "mulheres_pct": 68,
+    "custo_total_folha_mensal": 4892000,
+    "custo_turnover_anual_k": 799,
+    "vagas_abertas": 14,
+    "tempo_medio_contratacao_dias": 22
+  }
+}
